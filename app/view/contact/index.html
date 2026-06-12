@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系管理员 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding: 0 10px;
+            line-height: 60px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user span { font-size: 14px; color: #333; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+        
+        .main-content { padding: 40px 20px; max-width: 600px; margin: 0 auto; }
+        
+        .contact-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 30px;
+        }
+        
+        .contact-card h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .form-group { margin-bottom: 20px; }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+            outline: none;
+        }
+        
+        .form-group textarea:focus { border-color: #667eea; }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group input:focus { border-color: #667eea; }
+        
+        .form-group .tip {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover { background: #5a6fd6; }
+        
+        .success-box {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-box i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #52c41a;
+        }
+        
+        .success-box h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .success-box p {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .success-box .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #f5f5f5;
+            color: #666;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            {if $user.role == 1}
+            <a href="/student">首页</a>
+            <a href="/student/courses">课程学习</a>
+            <a href="/student/practice">在线练习</a>
+            <a href="/student/exam">模拟考试</a>
+            <a href="/student/error">错题本</a>
+            <a href="/contact" class="active">联系管理员</a>
+            {else}
+            <a href="/teacher">首页</a>
+            <a href="/teacher/courses">课程管理</a>
+            <a href="/teacher/classes">班级管理</a>
+            <a href="/teacher/tasks">任务布置</a>
+            <a href="/teacher/statistics">学情分析</a>
+            <a href="/contact" class="active">联系管理员</a>
+            {/if}
+        </div>
+        <div class="user">
+            <span>{$user.real_name}</span>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="contact-card">
+            <h2>联系管理员</h2>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <label>反馈内容</label>
+                    <textarea id="content" placeholder="请描述您遇到的问题或建议..."></textarea>
+                    <div class="tip">请详细描述您的问题，以便管理员更好地帮助您</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>联系方式（选填）</label>
+                    <input type="text" id="contact" placeholder="手机号或邮箱">
+                    <div class="tip">填写联系方式便于管理员回复您</div>
+                </div>
+                
+                <button type="submit" class="btn-submit">提交反馈</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const content = document.getElementById('content').value;
+            const contact = document.getElementById('contact').value;
+            
+            if (!content.trim()) {
+                alert('请输入反馈内容');
+                return;
+            }
+            
+            fetch('/contact/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `content=${encodeURIComponent(content)}&contact=${encodeURIComponent(contact)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1) {
+                    document.querySelector('.main-content').innerHTML = `
+                        <div class="contact-card success-box">
+                            <i>✓</i>
+                            <h3>提交成功</h3>
+                            <p>${data.msg}</p>
+                            <a href="/contact" class="btn-back">继续反馈</a>
+                        </div>
+                    `;
+                } else {
+                    alert(data.msg);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

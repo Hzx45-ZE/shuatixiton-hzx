@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI批改审核 - 教师端</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; }
+
+        .header { background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a { text-decoration: none; color: #666; font-size: 14px; padding: 0 10px; line-height: 60px; border-bottom: 3px solid transparent; }
+        .header .nav a:hover, .header .nav a.active { color: #667eea; border-bottom-color: #667eea; }
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#667eea,#764ba2); color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; }
+        .header .user .user-name { font-size: 14px; color: #333; cursor: pointer; text-decoration: none; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+
+        .main-content { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 20px; overflow: hidden; }
+        .card-header { padding: 20px 25px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .card-header h3 { font-size: 16px; color: #333; }
+        .card-body { padding: 25px; }
+
+        .badge { padding: 3px 10px; border-radius: 4px; font-size: 12px; }
+        .badge.pending { background: #fff7e6; color: #fa8c16; }
+        .badge.reviewed { background: #f6ffed; color: #52c41a; }
+
+        .grade-item { border: 1px solid #f0f0f0; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+        .grade-item .meta { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+        .grade-item .student { font-weight: 600; color: #333; }
+        .grade-item .time { font-size: 12px; color: #999; }
+        .grade-item .q-title { font-size: 14px; color: #555; margin-bottom: 12px; padding: 10px; background: #f9f9f9; border-radius: 6px; }
+        .grade-item .compare { display: flex; gap: 20px; align-items: flex-start; }
+        .grade-item .compare-box { flex: 1; padding: 12px; border-radius: 6px; }
+        .grade-item .compare-box.ai { background: #e6f7ff; border: 1px solid #91d5ff; }
+        .grade-item .compare-box.user { background: #f6ffed; border: 1px solid #b7eb8f; }
+        .grade-item .compare-label { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+        .grade-item .compare-label.ai-label { color: #1890ff; }
+        .grade-item .compare-label.user-label { color: #52c41a; }
+        .grade-item .compare-text { font-size: 13px; color: #666; line-height: 1.6; }
+        .grade-item .compare-score { font-size: 24px; font-weight: 700; }
+
+        .actions { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .btn.accept { background: #52c41a; color: white; }
+        .btn.accept:hover { background: #45a614; }
+        .btn.override { background: #fff7e6; color: #fa8c16; border: 1px solid #ffd591; }
+        .btn.override:hover { background: #fff1b8; }
+        .btn.submit { background: #667eea; color: white; }
+        .btn.submit:hover { background: #5a6fd6; }
+        .override-form { display: none; margin-top: 10px; }
+        .override-form input { width: 100px; padding: 6px 10px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 14px; }
+        .override-form label { font-size: 13px; color: #666; margin-right: 8px; }
+
+        .empty { text-align: center; padding: 60px; color: #999; }
+        .pagination { text-align: center; padding: 20px 0; }
+        .pagination a { padding: 6px 12px; border: 1px solid #e0e0e0; border-radius: 4px; margin: 0 3px; text-decoration: none; color: #333; font-size: 13px; }
+        .pagination a.active { background: #667eea; color: white; border-color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 教师端</div>
+        <div class="nav">
+            <a href="/teacher/courses">课程管理</a>
+            <a href="/teacher/papers">题库组卷</a>
+            <a href="/teacher/tasks">任务布置</a>
+            <a href="/teacher/classes">班级管理</a>
+            <a href="/teacher/students">学生管理</a>
+            <a href="/teacher/statistics">学情分析</a>
+        </div>
+        <div class="user">
+            <a href="/teacher/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/teacher/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h3>🤖 AI批改审核 <span class="badge pending">{$pending_count}条待审核</span></h3>
+            </div>
+            <div class="card-body">
+                {if !$details->isEmpty()}
+                {volist name="details" id="d"}
+                <div class="grade-item" id="item-{$d.id}">
+                    <div class="meta">
+                        <span class="student">学生：{$d.record.user.real_name|default='未知'}</span>
+                        <span class="badge pending">待审核</span>
+                        <span class="time">提交时间：{$d.answer_time}</span>
+                    </div>
+                    <div class="q-title">
+                        <strong>题目：</strong>{$d.question.title|default=''}
+                    </div>
+                    <div class="compare">
+                        <div class="compare-box user">
+                            <div class="compare-label user-label">学生作答</div>
+                            <div class="compare-text">{$d.user_answer|default='未作答'}</div>
+                        </div>
+                        <div class="compare-box ai">
+                            <div class="compare-label ai-label">AI参考评分</div>
+                            <div class="compare-score">{$d.ai_score}分</div>
+                            <div class="compare-text">{$d.ai_comment|default=''}</div>
+                        </div>
+                    </div>
+                    <div class="actions" id="actions-{$d.id}">
+                        <button class="btn accept" onclick="acceptGrade({$d.id})">✓ 接受AI评分</button>
+                        <button class="btn override" onclick="showOverride({$d.id})">✎ 重新打分</button>
+                    </div>
+                    <div class="override-form" id="overrideForm-{$d.id}">
+                        <label>教师评分（0-{$d.question.score|default=10}分）：</label>
+                        <input type="number" id="teacherScore-{$d.id}" min="0" max="{$d.question.score|default=10}" step="0.5" placeholder="输入分数">
+                        <button class="btn submit" onclick="overrideGrade({$d.id})">提交评分</button>
+                        <button class="btn" style="background:#f0f0f0;color:#666;" onclick="cancelOverride({$d.id})">取消</button>
+                    </div>
+                    <div id="result-{$d.id}" style="margin-top:10px;padding:10px;border-radius:6px;display:none;"></div>
+                </div>
+                {/volist}
+                {else}
+                <div class="empty">暂无待审核的主观题</div>
+                {/if}
+            </div>
+        </div>
+        {if $details->render()}
+        <div class="pagination">
+            {$details->render()|raw}
+        </div>
+        {/if}
+    </div>
+
+    <script>
+        function showOverride(id) {
+            document.getElementById('overrideForm-' + id).style.display = 'block';
+            document.getElementById('actions-' + id).style.display = 'none';
+        }
+
+        function cancelOverride(id) {
+            document.getElementById('overrideForm-' + id).style.display = 'none';
+            document.getElementById('actions-' + id).style.display = 'flex';
+        }
+
+        function acceptGrade(id) {
+            if (!confirm('确定接受AI评分吗？')) return;
+            submitGrade(id, 'accept', null);
+        }
+
+        function overrideGrade(id) {
+            var score = document.getElementById('teacherScore-' + id).value;
+            if (!score) { alert('请输入教师评分'); return; }
+            if (!confirm('确定将评分改为 ' + score + ' 分吗？')) return;
+            submitGrade(id, 'override', score);
+        }
+
+        function submitGrade(id, action, score) {
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('action', action);
+            if (score !== null) {
+                formData.append('teacher_score', score);
+            }
+
+            fetch('/teacher/statistics/save_grade', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                var resultEl = document.getElementById('result-' + id);
+                resultEl.style.display = 'block';
+                if (data.code === 1) {
+                    resultEl.style.background = '#f6ffed';
+                    resultEl.style.color = '#52c41a';
+                    resultEl.textContent = '✓ ' + data.msg;
+                    document.getElementById('item-' + id).style.opacity = '0.5';
+                    document.getElementById('actions-' + id).style.display = 'none';
+                    document.getElementById('overrideForm-' + id).style.display = 'none';
+                } else {
+                    resultEl.style.background = '#fff1f0';
+                    resultEl.style.color = '#f5222d';
+                    resultEl.textContent = '✗ ' + data.msg;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

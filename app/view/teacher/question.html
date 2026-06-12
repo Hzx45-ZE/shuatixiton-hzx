@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>题目管理 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        .header {
+            background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none; color: #666; font-size: 14px; padding: 0 10px;
+            line-height: 60px; border-bottom: 3px solid transparent; transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active { color: #667eea; border-bottom-color: #667eea; }
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+
+        .main-content { max-width: 1200px; margin: 20px auto; }
+
+        .course-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 25px 30px; border-radius: 12px;
+            margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .course-header h2 { font-size: 22px; margin-bottom: 8px; }
+        .course-header .breadcrumb { opacity: 0.9; font-size: 13px; }
+        .course-header .breadcrumb a { color: white; text-decoration: none; }
+        .btn.back {
+            background: rgba(255,255,255,0.2); color: white; padding: 10px 24px;
+            border-radius: 6px; cursor: pointer; border: none; font-size: 14px;
+        }
+        .btn.back:hover { background: rgba(255,255,255,0.3); }
+
+        .toolbar {
+            background: white; padding: 15px 20px; border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 15px;
+            display: flex; gap: 10px; align-items: center;
+        }
+        .toolbar h3 { font-size: 16px; color: #333; margin-right: auto; }
+        .btn {
+            padding: 10px 24px; border: none; border-radius: 6px; cursor: pointer;
+            font-size: 14px; font-weight: 500; transition: all 0.3s ease;
+        }
+        .btn.add { background: #667eea; color: white; }
+        .btn.add:hover { background: #5a6fd6; }
+        .btn.import { background: #52c41a; color: white; }
+        .btn.import:hover { background: #45a614; }
+        .btn.template { background: #1890ff; color: white; }
+        .btn.template:hover { background: #096dd9; }
+
+        .question-list { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow: hidden; }
+        .question-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 25px; border-bottom: 1px solid #f0f0f0; transition: background 0.2s;
+        }
+        .question-item:last-child { border-bottom: none; }
+        .question-item:hover { background: #fafafa; }
+        .question-info h4 { font-size: 15px; color: #333; margin-bottom: 5px; }
+        .question-info .meta { font-size: 13px; color: #999; }
+        .question-actions { display: flex; gap: 10px; }
+        .btn-sm {
+            padding: 6px 16px; border: none; border-radius: 4px; cursor: pointer;
+            font-size: 13px; transition: all 0.3s ease;
+        }
+        .btn-edit { background: #e6f7ff; color: #1890ff; }
+        .btn-edit:hover { background: #bae7ff; }
+        .btn-delete { background: #fff1f0; color: #ff4d4f; }
+        .btn-delete:hover { background: #ffa39e; }
+
+        .pagination { padding: 20px; text-align: center; }
+        .pagination a {
+            display: inline-block; padding: 8px 14px; margin: 0 3px;
+            border: 1px solid #e0e0e0; border-radius: 4px; color: #666;
+            text-decoration: none; font-size: 13px;
+        }
+        .pagination a.active { background: #667eea; color: white; border-color: #667eea; }
+        .pagination a:hover:not(.active) { border-color: #667eea; color: #667eea; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center;
+            z-index: 1000;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: white; border-radius: 12px; width: 600px; max-height: 90vh;
+            overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            padding: 20px 25px; border-bottom: 1px solid #eee; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .modal-header h3 { font-size: 18px; color: #333; }
+        .close-btn { font-size: 24px; cursor: pointer; color: #999; background: none; border: none; }
+        .close-btn:hover { color: #333; }
+        .modal-body { padding: 25px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 14px; color: #555; margin-bottom: 8px; font-weight: 500; }
+        .form-group label span { color: #ff4d4f; }
+        .form-control {
+            width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px;
+            font-size: 14px; outline: none; transition: border 0.3s;
+        }
+        .form-control:focus { border-color: #667eea; }
+        textarea.form-control { min-height: 80px; resize: vertical; }
+        .option-group { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .option-group label {
+            width: 30px; height: 30px; background: #f0f5ff; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 600; color: #667eea; font-size: 14px;
+        }
+        .option-group input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .type-switch { display: none; }
+        .type-switch.show { display: block; }
+        select[multiple] { min-height: 80px; padding: 8px; }
+        .modal-footer {
+            padding: 18px 25px; border-top: 1px solid #eee;
+            display: flex; justify-content: flex-end; gap: 12px;
+        }
+        .btn.cancel { background: #f5f5f5; color: #666; }
+        .btn.confirm { background: #667eea; color: white; }
+        .alert {
+            position: fixed; top: 70px; right: 30px; padding: 15px 25px;
+            border-radius: 8px; z-index: 2000; display: none; font-size: 14px;
+        }
+        .alert.success { background: #f6ffed; color: #52c41a; border: 1px solid #b7eb8f; }
+        .alert.error { background: #fff2f0; color: #ff4d4f; border: 1px solid #ffccc7; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/teacher">首页</a>
+            <a href="/teacher/courses" class="active">课程管理</a>
+            <a href="/teacher/classes">班级管理</a>
+            <a href="/teacher/students">学生管理</a>
+            <a href="/teacher/tasks">任务布置</a>
+            <a href="/teacher/papers">试卷管理</a>
+            <a href="/teacher/statistics">学情分析</a>
+        </div>
+        <div class="user">
+            <a href="/teacher/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/teacher/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="course-header">
+            <div>
+                <h2>{$chapter.name} - 题目管理</h2>
+                <div class="breadcrumb">
+                    <a href="/teacher/courses">课程管理</a> / 
+                    <a href="/teacher/courses/detail?id={$course.id}">{$course.name}</a> / 
+                    题目管理
+                </div>
+            </div>
+            <button class="btn back" onclick="location.href='/teacher/courses/detail?id={$course.id}'">← 返回章节</button>
+        </div>
+
+        <div class="toolbar">
+            <h3>题目列表（共 {:is_object($questions) && method_exists($questions, 'total') ? $questions->total() : count($questions)} 道）</h3>
+            <button class="btn template" onclick="location.href='/teacher/questions/importTemplate'">下载模板</button>
+            <button class="btn import" onclick="document.getElementById('importFile').click()">批量导入</button>
+            <input type="file" id="importFile" accept=".xls,.xlsx" style="display:none" onchange="importFile(this)">
+            <button class="btn add" id="addQuestionBtn">添加题目</button>
+        </div>
+
+        <div class="question-list">
+            {if is_object($questions) && method_exists($questions, 'items')}
+            {volist name="questions->items()" id="q"}
+            <div class="question-item">
+                <div class="question-info">
+                    <h4>{$q.title|mb_substr=0,50}...</h4>
+                    <div class="meta">
+                        类型：{if $q.type_id == 1}单选{elseif $q.type_id == 2}多选{elseif $q.type_id == 3}判断{elseif $q.type_id == 4}填空{else}简答{/if}
+                         | 难度：{if $q.difficulty_id == 1}简单{elseif $q.difficulty_id == 2}中等{else}困难{/if}
+                         | 分值：{$q.score}分
+                    </div>
+                </div>
+                <div class="question-actions">
+                    <button class="btn-sm btn-edit" data-id="{$q.id}">编辑</button>
+                    <button class="btn-sm btn-delete" onclick="deleteQuestion({$q.id})">删除</button>
+                </div>
+            </div>
+            {/volist}
+            
+            {if empty($questions->items())}
+            <div style="padding: 40px; text-align: center; color: #999;">
+                暂无题目，点击上方按钮添加
+            </div>
+            {/if}
+
+            <div class="pagination">
+                {$questions->render()|raw}
+            </div>
+            {/if}
+        </div>
+    </div>
+
+    <div id="questionModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>添加题目</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="questionForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="chapter_id" value="{$chapter_id}">
+                    
+                    <div class="form-group">
+                        <label>题干 <span>*</span></label>
+                        <textarea name="title" class="form-control" placeholder="请输入题干内容"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>题型</label>
+                        <select name="type_id" class="form-control" onchange="switchType(this)">
+                            {volist name="types" id="t"}
+                            <option value="{$t.id}" data-code="{$t.code}">{$t.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>难度</label>
+                        <select name="difficulty_id" class="form-control">
+                            {volist name="difficulties" id="d"}
+                            <option value="{$d.id}">{$d.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>知识点</label>
+                        <select name="knowledge_id" class="form-control">
+                            <option value="">无</option>
+                            {volist name="knowledges" id="k"}
+                            <option value="{$k.id}">{$k.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>分值</label>
+                        <input type="number" name="score" class="form-control" value="1" min="1">
+                    </div>
+
+                    <div class="type-switch show" id="choiceOptions">
+                        <div class="form-group">
+                            <label>选项列表</label>
+                            <div class="option-group">
+                                <label>A</label>
+                                <input type="text" name="options[]" placeholder="选项A">
+                            </div>
+                            <div class="option-group">
+                                <label>B</label>
+                                <input type="text" name="options[]" placeholder="选项B">
+                            </div>
+                            <div class="option-group">
+                                <label>C</label>
+                                <input type="text" name="options[]" placeholder="选项C">
+                            </div>
+                            <div class="option-group">
+                                <label>D</label>
+                                <input type="text" name="options[]" placeholder="选项D">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>正确答案（请点击选择）</label>
+                            <select name="answer[]" multiple style="min-height: 80px; width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px;">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                            <small style="color: #999; margin-top: 5px; display: block;">按住 Ctrl 可多选</small>
+                        </div>
+                    </div>
+
+                    <div class="type-switch" id="fillBlankAnswer">
+                        <div class="form-group">
+                            <label>正确答案（多个填空用分号分隔）</label>
+                            <input type="text" name="answer" class="form-control" placeholder="如：答案1;答案2">
+                        </div>
+                    </div>
+
+                    <div class="type-switch" id="shortAnswer">
+                        <div class="form-group">
+                            <label>参考答案</label>
+                            <textarea name="answer" rows="3" class="form-control" placeholder="请输入参考答案"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>题目解析</label>
+                        <textarea name="analysis" rows="3" class="form-control" placeholder="请输入题目解析"></textarea>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn cancel" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn confirm">确认保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="questionAlert" class="alert"></div>
+
+    <script>
+        console.log('Script loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded fired');
+            
+            var addBtn = document.getElementById('addQuestionBtn');
+            console.log('Add button found:', addBtn);
+            if (addBtn) {
+                addBtn.addEventListener('click', function() {
+                    console.log('Add button clicked');
+                    openAddModal();
+                });
+            }
+            
+            var editBtns = document.querySelectorAll('.btn-edit');
+            console.log('Edit buttons found:', editBtns.length);
+            editBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    console.log('Edit button clicked, id:', this.dataset.id);
+                    editQuestion(this.dataset.id);
+                });
+            });
+            
+            var questionForm = document.getElementById('questionForm');
+            console.log('Question form found:', questionForm);
+            if (questionForm) {
+                questionForm.addEventListener('submit', function(e) {
+                    console.log('Form submit triggered');
+                    e.preventDefault();
+                    
+                    const formData = new FormData();
+                    const formElements = this.elements;
+                    
+                    for (let i = 0; i < formElements.length; i++) {
+                        const element = formElements[i];
+                        
+                        if (element.type === 'submit') continue;
+                        
+                        if (element.tagName === 'SELECT' && element.multiple) {
+                            const selectedOptions = [];
+                            for (let j = 0; j < element.options.length; j++) {
+                                if (element.options[j].selected) {
+                                    selectedOptions.push(element.options[j].value);
+                                    formData.append(element.name, element.options[j].value);
+                                }
+                            }
+                            console.log('Selected answers:', selectedOptions);
+                        } else if (element.type === 'checkbox') {
+                            if (element.checked) {
+                                formData.append(element.name, element.value);
+                            }
+                        } else if (element.name && element.value !== '') {
+                            formData.append(element.name, element.value);
+                        }
+                    }
+
+                    console.log('FormData entries:');
+                    for (let pair of formData.entries()) {
+                        console.log(pair[0] + ': ' + pair[1]);
+                    }
+
+                    fetch('/teacher/questions/save', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(result => {
+                        if (result.code === 1) {
+                            showAlert(result.msg, 'success');
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            showAlert(result.msg, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        showAlert('保存失败，请重试', 'error');
+                    });
+                });
+            }
+        });
+
+        function switchType(select) {
+            const code = select.options[select.selectedIndex].dataset.code;
+            document.querySelectorAll('.type-switch').forEach(el => el.classList.remove('show'));
+            if (['single_choice', 'multiple_choice', 'judgment'].includes(code)) {
+                document.getElementById('choiceOptions').classList.add('show');
+            } else if (code === 'fill_blank') {
+                document.getElementById('fillBlankAnswer').classList.add('show');
+            } else {
+                document.getElementById('shortAnswer').classList.add('show');
+            }
+        }
+
+        function openAddModal() {
+            document.getElementById('questionForm').reset();
+            document.querySelector('#questionForm input[name="id"]').value = '';
+            document.querySelector('#questionModal .modal-header h3').textContent = '添加题目';
+            switchType(document.querySelector('select[name="type_id"]'));
+            document.getElementById('questionModal').classList.add('show');
+        }
+
+        function editQuestion(id) {
+            fetch('/teacher/questions/detail?id=' + id)
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    const data = result.data;
+                    const form = document.getElementById('questionForm');
+                    form.querySelector('[name="id"]').value = data.id;
+                    form.querySelector('[name="title"]').value = data.title;
+                    form.querySelector('[name="type_id"]').value = data.type_id;
+                    form.querySelector('[name="difficulty_id"]').value = data.difficulty_id;
+                    form.querySelector('[name="knowledge_id"]').value = data.knowledge_id || '';
+                    form.querySelector('[name="score"]').value = data.score || 1;
+                    form.querySelector('[name="analysis"]').value = data.analysis || '';
+
+                    const typeSelect = form.querySelector('[name="type_id"]');
+                    switchType(typeSelect);
+
+                    if (data.options && data.options.length > 0) {
+                        const optionInputs = form.querySelectorAll('input[name="options[]"]');
+                        optionInputs.forEach((inp, i) => {
+                            inp.value = data.options[i] ? data.options[i].option_content : '';
+                        });
+                        
+                        // 重置并设置正确答案
+                        const answerSelect = form.querySelector('select[name="answer[]"]');
+                        Array.from(answerSelect.options).forEach(opt => opt.selected = false);
+                        Array.from(answerSelect.options).forEach(opt => {
+                            if (data.options.some(o => o.is_correct == 1 && o.option_key === opt.value)) {
+                                opt.selected = true;
+                            }
+                        });
+                    } else if (data.answers && data.answers.length > 0) {
+                        if (data.type_code === 'fill_blank') {
+                            form.querySelector('#fillBlankAnswer input[name="answer"]').value = data.answers.map(a => a.answer_content).join(';');
+                        } else {
+                            form.querySelector('#shortAnswer textarea[name="answer"]').value = data.answers[0] ? data.answers[0].answer_content : '';
+                        }
+                    }
+
+                    document.querySelector('#questionModal .modal-header h3').textContent = '编辑题目';
+                    document.getElementById('questionModal').classList.add('show');
+                } else {
+                    alert(result.msg);
+                }
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('questionModal').classList.remove('show');
+        }
+
+        function showAlert(msg, type) {
+            const alert = document.getElementById('questionAlert');
+            alert.textContent = msg;
+            alert.className = 'alert ' + type;
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 3000);
+        }
+
+        function deleteQuestion(id) {
+            if (!confirm('确定要删除该题目吗？')) return;
+            fetch('/teacher/questions/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'id=' + id
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    showAlert('删除成功', 'success');
+                    setTimeout(() => location.reload(), 500);
+                } else {
+                    showAlert(result.msg, 'error');
+                }
+            });
+        }
+
+        function importFile(input) {
+            if (!input.files.length) return;
+            
+            const formData = new FormData();
+            formData.append('file', input.files[0]);
+            
+            fetch('/teacher/questions/import', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    showAlert(result.msg, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showAlert(result.msg, 'error');
+                }
+            });
+            
+            input.value = '';
+        }
+    </script>
+</body>
+</html>

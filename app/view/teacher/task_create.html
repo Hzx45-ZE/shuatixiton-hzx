@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布任务 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+
+        .header {
+            background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none; color: #666; font-size: 14px; padding: 0 10px;
+            line-height: 60px; border-bottom: 3px solid transparent; transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active { color: #667eea; border-bottom-color: #667eea; }
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+
+        .main-content { padding: 20px; max-width: 700px; margin: 0 auto; }
+
+        .section { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); padding: 30px; }
+        .section h2 { font-size: 18px; margin-bottom: 20px; color: #333; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #333; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; outline: none; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #667eea; }
+
+        .form-row { display: flex; gap: 15px; }
+        .form-row .form-group { flex: 1; }
+
+        .btn { padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s ease; }
+        .btn.primary { background: #667eea; color: white; }
+        .btn.primary:hover { background: #5a6fd6; }
+        .btn.cancel { background: #f5f5f5; color: #666; }
+
+        .form-footer { display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end; }
+
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 15px; display: none; }
+        .alert.error { background: #fff5f5; color: #dc2626; border: 1px solid #fee2e2; }
+        .alert.success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+        .paper-info { background: #f8f9ff; border-radius: 8px; padding: 15px; margin-top: 8px; display: none; }
+        .paper-info.show { display: block; }
+        .paper-info p { font-size: 13px; color: #666; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/teacher">首页</a>
+            <a href="/teacher/courses">课程管理</a>
+            <a href="/teacher/classes">班级管理</a>
+            <a href="/teacher/students">学生管理</a>
+            <a href="/teacher/tasks" class="active">任务布置</a>
+            <a href="/teacher/papers">试卷管理</a>
+            <a href="/teacher/statistics">学情分析</a>
+        </div>
+        <div class="user">
+            <a href="/teacher/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/teacher/profile">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="section">
+            <h2>发布新任务</h2>
+            <div class="alert" id="alert"></div>
+
+            <form id="taskForm">
+                <div class="form-group">
+                    <label>任务标题 *</label>
+                    <input type="text" name="title" placeholder="请输入任务标题">
+                </div>
+
+                <div class="form-group">
+                    <label>任务类型</label>
+                    <select name="type">
+                        <option value="practice">练习</option>
+                        <option value="exam">考试</option>
+                        <option value="homework">作业</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>选择班级 *</label>
+                    <select name="class_id">
+                        <option value="">请选择班级</option>
+                        {volist name="classes" id="class"}
+                        <option value="{$class.id}">{$class.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>选择试卷 *</label>
+                    <select name="paper_id" onchange="showPaperInfo(this.value)">
+                        <option value="">请选择试卷</option>
+                        {volist name="papers" id="paper"}
+                        <option value="{$paper.id}" data-questions="{$paper.questions|count}" data-score="{$paper.total_score|default=0}">{$paper.title}</option>
+                        {/volist}
+                    </select>
+                    <div class="paper-info" id="paperInfo">
+                        <p>题目数：<span id="paperQuestionCount">0</span></p>
+                        <p>总分：<span id="paperTotalScore">0</span></p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>开始时间 *</label>
+                        <input type="datetime-local" name="start_time">
+                    </div>
+                    <div class="form-group">
+                        <label>结束时间 *</label>
+                        <input type="datetime-local" name="end_time">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>任务描述</label>
+                    <textarea name="description" rows="3" placeholder="请输入任务描述"></textarea>
+                </div>
+
+                <div class="form-footer">
+                    <button type="button" class="btn cancel" onclick="location.href='/teacher/tasks'">取消</button>
+                    <button type="submit" class="btn primary">发布任务</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showPaperInfo(paperId) {
+            const info = document.getElementById('paperInfo');
+            if (!paperId) {
+                info.classList.remove('show');
+                return;
+            }
+            const select = document.querySelector('select[name="paper_id"]');
+            const option = select.options[select.selectedIndex];
+            document.getElementById('paperQuestionCount').textContent = option.dataset.questions || '0';
+            document.getElementById('paperTotalScore').textContent = option.dataset.score || '0';
+            info.classList.add('show');
+        }
+
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((v, k) => data[k] = v);
+
+            fetch('/teacher/tasks/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    showAlert(result.msg, 'success');
+                    setTimeout(() => location.href = '/teacher/tasks', 1000);
+                } else {
+                    showAlert(result.msg, 'error');
+                }
+            });
+        });
+
+        function showAlert(msg, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = msg;
+            alert.className = 'alert ' + type;
+            alert.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

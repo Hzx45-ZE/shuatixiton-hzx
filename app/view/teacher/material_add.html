@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布学习资料 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding: 0 10px;
+            line-height: 60px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .header .user .user-avatar:hover { transform: scale(1.1); }
+        .header .user .user-name {
+            font-size: 14px; color: #333; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-name:hover { color: #667eea; }
+        .header .user span { font-size: 14px; color: #333; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+        
+        .main-content { padding: 20px; max-width: 600px; margin: 0 auto; }
+        
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 30px;
+        }
+        
+        .form-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        
+        .form-group { margin-bottom: 20px; }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: #667eea;
+        }
+        
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        
+        .type-options {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .type-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .type-option:hover { border-color: #667eea; }
+        
+        .type-option.selected { border-color: #667eea; background: #f0f5ff; }
+        
+        .type-option input { width: auto; margin: 0; }
+        
+        .type-option span { font-size: 14px; color: #333; }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn.primary { background: #667eea; color: white; }
+        .btn.primary:hover { background: #5a6fd6; }
+        
+        .btn.secondary { background: #f5f5f5; color: #666; }
+        
+        .btn-group { display: flex; gap: 15px; justify-content: flex-end; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/teacher">首页</a>
+            <a href="/teacher/courses">课程管理</a>
+            <a href="/teacher/classes">班级管理</a>
+            <a href="/teacher/students">学生管理</a>
+            <a href="/teacher/tasks">任务布置</a>
+            <a href="/teacher/papers">试卷管理</a>
+            <a href="/teacher/materials" class="active">学习资料</a>
+            <a href="/teacher/statistics">学情分析</a>
+        </div>
+        
+        <div class="user">
+            <a href="/teacher/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/teacher/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <form id="materialForm" class="form-card">
+            <h3>发布学习资料</h3>
+            
+            <div class="form-group">
+                <label>资料类型 *</label>
+                <div class="type-options">
+                    <label class="type-option" onclick="selectType('video')">
+                        <input type="radio" name="type" value="video" checked>
+                        <span>📹 视频</span>
+                    </label>
+                    <label class="type-option" onclick="selectType('document')">
+                        <input type="radio" name="type" value="document">
+                        <span>📄 文档</span>
+                    </label>
+                    <label class="type-option" onclick="selectType('link')">
+                        <input type="radio" name="type" value="link">
+                        <span>🔗 链接</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>资料标题 *</label>
+                <input type="text" name="title" placeholder="请输入资料标题" required>
+            </div>
+            
+            <div class="form-group">
+                <label>资料描述</label>
+                <textarea name="description" placeholder="请输入资料描述（可选）"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>关联班级</label>
+                <select name="class_id">
+                    <option value="">不限制班级（所有学生可见）</option>
+                    {volist name="classes" id="class"}
+                    <option value="{$class.id}">{$class.name}</option>
+                    {/volist}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>链接地址</label>
+                <input type="url" name="link_url" placeholder="请输入资料链接地址">
+            </div>
+            
+            <div class="btn-group">
+                <button type="button" class="btn secondary" onclick="location.href='/teacher/materials'">取消</button>
+                <button type="submit" class="btn primary">发布资料</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        function selectType(type) {
+            document.querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+        
+        document.getElementById('materialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            fetch('/teacher/materials/add', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1) {
+                    location.href = data.url;
+                } else {
+                    alert(data.msg);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

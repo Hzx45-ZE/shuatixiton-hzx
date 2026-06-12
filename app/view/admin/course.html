@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程管理 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .sidebar .logo { text-align: center; padding: 0 20px; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; }
+        .sidebar .logo h1 { font-size: 18px; font-weight: 600; }
+        
+        .sidebar .menu { list-style: none; }
+        .sidebar .menu li { margin-bottom: 5px; }
+        .sidebar .menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .sidebar .menu li a:hover, .sidebar .menu li a.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: white;
+            color: white;
+        }
+        
+        .sidebar .user-info {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .sidebar .user-info p { font-size: 14px; margin-bottom: 5px; }
+        .sidebar .user-info a { color: rgba(255,255,255,0.7); font-size: 12px; text-decoration: none; }
+        
+        .main-content { margin-left: 220px; padding: 20px; }
+        
+        .main-content .header {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .main-content .header h2 { font-size: 18px; color: #333; }
+        
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn.add { background: #667eea; color: white; }
+        .btn.add:hover { background: #5a6fd6; }
+        
+        .table-container { background: white; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow: hidden; }
+        
+        .table-container table { width: 100%; border-collapse: collapse; }
+        .table-container th, .table-container td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        .table-container th { background: #fafafa; font-weight: 600; color: #666; font-size: 14px; }
+        .table-container td { font-size: 14px; color: #333; }
+        
+        .btn.edit { background: #52c41a; color: white; padding: 4px 10px; font-size: 12px; }
+        .btn.delete { background: #ff4d4f; color: white; padding: 4px 10px; font-size: 12px; }
+        
+        .status.active { color: #52c41a; }
+        .status.inactive { color: #ff4d4f; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .modal-content h3 { margin-bottom: 20px; font-size: 18px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #333; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #667eea; }
+        
+        .modal-footer { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+        .btn.cancel { background: #f5f5f5; color: #666; }
+        .btn.confirm { background: #667eea; color: white; }
+        
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 15px; display: none; }
+        .alert.error { background: #fff5f5; color: #dc2626; border: 1px solid #fee2e2; }
+        .alert.success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h1>刷题考试系统</h1>
+        </div>
+        <ul class="menu">
+            <li><a href="/admin"><i>📊</i><span>数据概览</span></a></li>
+            <li><a href="/admin/users"><i>👥</i><span>用户管理</span></a></li>
+            <li><a href="/admin/courses" class="active"><i>📚</i><span>课程管理</span></a></li>
+            <li><a href="/admin/classes"><i>🏫</i><span>班级管理</span></a></li>
+            <li><a href="/admin/questions"><i>📝</i><span>题库管理</span></a></li>
+            <li><a href="/admin/system"><i>⚙️</i><span>系统设置</span></a></li>
+        </ul>
+        <div class="user-info">
+            <p>管理员：{$user.real_name}</p>
+            <a href="/admin/logout">退出登录</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h2>课程管理</h2>
+            <button class="btn add" onclick="openAddModal()">添加课程</button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>课程名称</th>
+                        <th>课程编码</th>
+                        <th>授课教师</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="courses" id="course"}
+                    <tr>
+                        <td>{$course.name}</td>
+                        <td>{$course.code|default='-'}</td>
+                        <td>{$course.teacher.real_name|default='未分配'}</td>
+                        <td><span class="status {$course.status == 1 ? 'active' : 'inactive'}">{$course.status == 1 ? '启用' : '禁用'}</span></td>
+                        <td>{:date('Y-m-d', strtotime($course['create_time']))}</td>
+                        <td>
+                            <button class="btn edit" onclick="openEditModal({$course.id})">编辑</button>
+                            <button class="btn delete" onclick="deleteCourse({$course.id})">删除</button>
+                        </td>
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="alert" id="addAlert"></div>
+            <h3>添加课程</h3>
+            <form id="addForm">
+                <div class="form-group">
+                    <label>课程名称 *</label>
+                    <input type="text" name="name" placeholder="请输入课程名称">
+                </div>
+                <div class="form-group">
+                    <label>课程编码</label>
+                    <input type="text" name="code" placeholder="请输入课程编码">
+                </div>
+                <div class="form-group">
+                    <label>课程描述</label>
+                    <textarea name="description" rows="3" placeholder="请输入课程描述"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>授课教师</label>
+                    <select name="teacher_id">
+                        <option value="">请选择教师</option>
+                        {present name="teachers"}
+                        {volist name="teachers" id="teacher"}
+                        <option value="{$teacher.id}">{$teacher.real_name}</option>
+                        {/volist}
+                        {/present}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>排序</label>
+                    <input type="number" name="sort" value="0">
+                </div>
+                <div class="form-group">
+                    <label>状态</label>
+                    <select name="status">
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn cancel" onclick="closeAddModal()">取消</button>
+                    <button type="submit" class="btn confirm">确认添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function openAddModal() {
+            document.getElementById('addAlert').style.display = 'none';
+            document.getElementById('addForm').reset();
+            document.getElementById('addModal').classList.add('show');
+        }
+        
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('show');
+        }
+        
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((v, k) => data[k] = v);
+            
+            fetch('/admin/courses/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(data)
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    showAddAlert(result.msg, 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    showAddAlert(result.msg, 'error');
+                }
+            });
+        });
+        
+        function showAddAlert(msg, type) {
+            const alert = document.getElementById('addAlert');
+            alert.textContent = msg;
+            alert.className = `alert ${type}`;
+            alert.style.display = 'block';
+        }
+        
+        function deleteCourse(id) {
+            if (!confirm('确定要删除该课程吗？')) return;
+            
+            fetch('/admin/courses/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${id}`
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    location.reload();
+                } else {
+                    alert(result.msg);
+                }
+            });
+        }
+        
+        function openEditModal(id) {
+            alert('编辑功能开发中...');
+        }
+    </script>
+</body>
+</html>

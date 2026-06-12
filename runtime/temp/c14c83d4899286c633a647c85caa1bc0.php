@@ -1,0 +1,331 @@
+<?php /*a:1:{s:69:"D:\phpstudy\phpstudy_pro\WWW\xxjsdati.com\app\view\student\index.html";i:1781065604;}*/ ?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生端 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .header .nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .header .nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding: 0 10px;
+            line-height: 60px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .header .nav a:hover, .header .nav a.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .header .user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .header .user .user-avatar:hover { transform: scale(1.1); }
+        .header .user .user-name {
+            font-size: 14px; color: #333; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-name:hover { color: #667eea; }
+        .header .user span {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .header .user a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .notification-bar {
+            background: #fffbe6;
+            border-bottom: 1px solid #ffe58f;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification-bar i { color: #faad14; }
+        .notification-bar span { font-size: 14px; color: #d48806; }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .stat-card .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .label {
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-header h3 {
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .section-header a {
+            color: #667eea;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .task-list {
+            list-style: none;
+        }
+        
+        .task-list li {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .task-list li:last-child { border-bottom: none; }
+        
+        .task-list .task-info h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .task-list .task-info p {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .task-list .task-btn {
+            padding: 6px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+        }
+        
+        .action-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .action-card .icon.practice { background: #e6f7ff; color: #1890ff; }
+        .action-card .icon.exam { background: #fff1f0; color: #f5222d; }
+        .action-card .icon.error { background: #fff7e6; color: #fa8c16; }
+        .action-card .icon.record { background: #f6ffed; color: #52c41a; }
+        
+        .action-card .label {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .header .nav { gap: 10px; }
+            .header .nav a { font-size: 12px; padding: 0 5px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .quick-actions { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        
+        <div class="nav">
+            <a href="/student" class="active">首页</a>
+            <a href="/student/courses">课程学习</a>
+            <a href="/student/practice">在线练习</a>
+            <a href="/student/exam">模拟考试</a>
+            <a href="/student/error">错题本</a>
+        </div>
+        
+        <div class="user">
+            <a href="/student/profile" class="user-avatar"><?php echo htmlentities((string) mb_substr($user['real_name'],0,1)); ?></a>
+            <a href="/student/profile" class="user-name"><?php echo htmlentities((string) $user['real_name']); ?></a>
+            <span style="color: #999;">|</span>
+            <span><?php echo htmlentities((string) (isset($className) && ($className !== '')?$className:'未分配班级')); ?></span>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+    
+    <div class="notification-bar">
+        <i>📢</i>
+        <span>有新的学习任务，请及时完成！</span>
+    </div>
+    
+    <div class="main-content">
+        <div class="quick-actions">
+            <div class="action-card" onclick="location.href='/student/practice'">
+                <div class="icon practice">📝</div>
+                <div class="label">章节练习</div>
+            </div>
+            <div class="action-card" onclick="location.href='/student/exam'">
+                <div class="icon exam">✏️</div>
+                <div class="label">模拟考试</div>
+            </div>
+            <div class="action-card" onclick="location.href='/student/error'">
+                <div class="icon error">❌</div>
+                <div class="label">错题重做</div>
+            </div>
+            <div class="action-card" onclick="scrollToFavorites()">
+                <div class="icon record">⭐</div>
+                <div class="label">收藏题目</div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">📚</div>
+                <div class="value"><?php echo htmlentities((string) $practiceCount); ?></div>
+                <div class="label">练习次数</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">✏️</div>
+                <div class="value"><?php echo htmlentities((string) $examCount); ?></div>
+                <div class="label">考试次数</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">❌</div>
+                <div class="value"><?php echo htmlentities((string) $errorCount); ?></div>
+                <div class="label">错题数量</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⭐</div>
+                <div class="value"><?php echo htmlentities((string) $favoriteCount); ?></div>
+                <div class="label">收藏题目</div>
+            </div>
+        </div>
+        
+        <div class="section" id="favoriteSection">
+            <div class="section-header">
+                <h3>⭐ 收藏题目</h3>
+                <a href="/student/error">错题本 →</a>
+            </div>
+            <?php if($favorites && count($favorites) > 0): ?>
+            <ul class="task-list">
+                <?php if(is_array($favorites) || $favorites instanceof \think\Collection || $favorites instanceof \think\Paginator): $i = 0; $__LIST__ = $favorites;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$fav): $mod = ($i % 2 );++$i;?>
+                <li>
+                    <div class="task-info">
+                        <h4><?php echo htmlentities((string) mb_substr($fav['title'],0,40)); if(mb_strlen($fav['title']) > 40): ?>...<?php endif; ?></h4>
+                    </div>
+                </li>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
+            </ul>
+            <?php else: ?>
+            <div style="text-align:center;padding:40px;color:#999;">还没有收藏题目，答题时可以点击"收藏"按钮收藏题目</div>
+            <?php endif; ?>
+        </div>
+        </div>
+    </div>
+</body>
+<script>
+    function scrollToFavorites() {
+        document.getElementById('favoriteSection').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+</html>

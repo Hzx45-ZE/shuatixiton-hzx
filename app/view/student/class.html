@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的班级 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+
+        .header {
+            background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none; color: #666; font-size: 14px; padding: 0 10px;
+            line-height: 60px; border-bottom: 3px solid transparent; transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active { color: #667eea; border-bottom-color: #667eea; }
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-avatar:hover { transform: scale(1.1); }
+        .header .user .user-name { font-size: 14px; color: #333; cursor: pointer; text-decoration: none; }
+        .header .user .user-name:hover { color: #667eea; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+
+        .main-content { padding: 20px; max-width: 700px; margin: 0 auto; }
+
+        .section { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-header h3 { font-size: 18px; color: #333; }
+
+        .my-class-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px; padding: 30px; color: white; margin-bottom: 20px;
+        }
+        .my-class-card h2 { font-size: 24px; margin-bottom: 10px; }
+        .my-class-card p { opacity: 0.8; font-size: 14px; margin-bottom: 8px; }
+
+        .class-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .class-card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; transition: all 0.3s ease; }
+        .class-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102,126,234,0.1); }
+        .class-card h4 { font-size: 16px; color: #333; margin-bottom: 10px; }
+        .class-card .info { font-size: 13px; color: #999; margin-bottom: 6px; }
+        .class-card .info span { margin-right: 15px; }
+
+        .btn { padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s ease; }
+        .btn.primary { background: #667eea; color: white; }
+        .btn.primary:hover { background: #5a6fd6; }
+        .btn.outline { background: white; color: #667eea; border: 1px solid #667eea; }
+        .btn.outline:hover { background: #667eea; color: white; }
+
+        .empty { text-align: center; padding: 60px 20px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/student">首页</a>
+            <a href="/student/courses">课程学习</a>
+            <a href="/student/practice">在线练习</a>
+            <a href="/student/exam">模拟考试</a>
+            <a href="/student/error">错题本</a>
+            <a href="/student/classes" class="active">班级</a>
+        </div>
+        <div class="user">
+            <a href="/student/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/student/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {if $myClass}
+        <div class="my-class-card">
+            <h2>🏫 {$myClass.name}</h2>
+            <p>年级：{$myClass.grade|default='未设置'}</p>
+            <p>专业：{$myClass.major|default='未设置'}</p>
+            <p>{$myClass.description|default='暂无描述'}</p>
+        </div>
+        {else}
+        <div class="section">
+            <div class="section-header">
+                <h3>选择班级加入</h3>
+            </div>
+            {if $allClasses}
+            <div class="class-list">
+                {volist name="allClasses" id="class"}
+                <div class="class-card">
+                    <h4>{$class.name}</h4>
+                    <div class="info">
+                        <span>年级：{$class.grade|default='未设置'}</span>
+                        <span>专业：{$class.major|default='未设置'}</span>
+                    </div>
+                    <div class="info">教师：{$class.teacher.real_name|default='未分配'}</div>
+                    <div class="info">{$class.description|default='暂无描述'}</div>
+                    <div style="margin-top: 12px;">
+                        <button class="btn primary" onclick="joinClass({$class.id})">加入班级</button>
+                    </div>
+                </div>
+                {/volist}
+            </div>
+            {else}
+            <div class="empty"><p>暂无可用班级</p></div>
+            {/if}
+        </div>
+        {/if}
+    </div>
+
+    <script>
+        function joinClass(classId) {
+            if (!confirm('确定要加入该班级吗？')) return;
+
+            fetch('/student/classes/join', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'class_id=' + classId
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 1) {
+                    location.reload();
+                } else {
+                    alert(result.msg);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

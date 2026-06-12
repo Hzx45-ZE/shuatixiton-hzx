@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟考试 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding: 0 10px;
+            line-height: 60px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .header .user .user-avatar:hover { transform: scale(1.1); }
+        .header .user .user-name {
+            font-size: 14px; color: #333; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-name:hover { color: #667eea; }
+        .header .user span { font-size: 14px; color: #333; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+        
+        .main-content { padding: 20px; }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 25px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-header h3 { font-size: 18px; color: #333; }
+        
+        .paper-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .paper-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+        }
+        
+        .paper-card h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .paper-card p {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+        
+        .paper-card .meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .paper-card .btn {
+            width: 100%;
+            padding: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-card .btn:hover { background: #5a6fd6; }
+        .paper-card .btn.completed { background: #52c41a; }
+        .btn-row-mini { display: flex; gap: 8px; margin-top: 8px; }
+        .btn-row-mini .btn { flex: 1; }
+        .btn-row-mini .btn:hover { background: #45a614; }
+        .btn.outline { background: white; color: #667eea; border: 1px solid #667eea; }
+        .btn.outline:hover { background: #f0f5ff; }
+        
+        .status-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status-tag.completed { background: #f6ffed; color: #52c41a; }
+        .status-tag.pending { background: #fff7e6; color: #fa8c16; }
+        
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .empty i { font-size: 48px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/student">首页</a>
+            <a href="/student/courses">课程学习</a>
+            <a href="/student/practice">在线练习</a>
+            <a href="/student/exam" class="active">模拟考试</a>
+            <a href="/student/error">错题本</a>
+        </div>
+        <div class="user">
+            <a href="/student/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/student/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="section">
+            <div class="section-header">
+                <h3>可用试卷</h3>
+            </div>
+            
+            {if $papers}
+            <div class="paper-list">
+                {volist name="papers" id="paper"}
+                <div class="paper-card">
+                    <h4>{$paper.name}</h4>
+                    <p>{$paper.description|default='暂无描述'}</p>
+                    <div class="meta">
+                        <span>📝 {$paper.question_count}题</span>
+                        <span>🏆 {$paper.total_score}分</span>
+                        {if $paper.is_completed}
+                        <span class="status-tag completed">已完成</span>
+                        {else}
+                        <span class="status-tag pending">未完成</span>
+                        {/if}
+                    </div>
+                    {if $paper.is_completed}
+                    <div class="btn-row-mini">
+                        <button class="btn outline" onclick="location.href='/student/exam/detail?record_id={$paper.record_id}'">查看详情</button>
+                        <button class="btn completed" onclick="startExam({$paper.id}, true)">再次考试</button>
+                    </div>
+                    {else}
+                    <button class="btn" onclick="startExam({$paper.id}, false)">开始考试</button>
+                    {/if}
+                </div>
+                {/volist}
+            </div>
+            {else}
+            <div class="empty">
+                <i>📋</i>
+                <p>暂无可用试卷</p>
+            </div>
+            {/if}
+        </div>
+    </div>
+    
+    <script>
+        function startExam(paperId, isCompleted) {
+            if (isCompleted) {
+                if (!confirm('确定要再次参加考试吗？之前成绩不会被覆盖。')) {
+                    return;
+                }
+            }
+            location.href = `/student/exam/start?paper_id=${paperId}`;
+        }
+    </script>
+</body>
+</html>

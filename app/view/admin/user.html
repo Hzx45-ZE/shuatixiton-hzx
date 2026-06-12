@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .sidebar .logo {
+            text-align: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 20px;
+        }
+        
+        .sidebar .logo h1 { font-size: 18px; font-weight: 600; }
+        
+        .sidebar .menu { list-style: none; }
+        
+        .sidebar .menu li { margin-bottom: 5px; }
+        
+        .sidebar .menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar .menu li a:hover, .sidebar .menu li a.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: white;
+            color: white;
+        }
+        
+        .sidebar .menu li a i { margin-right: 10px; }
+        
+        .sidebar .user-info {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .sidebar .user-info p { font-size: 14px; margin-bottom: 5px; }
+        .sidebar .user-info a { color: rgba(255,255,255,0.7); font-size: 12px; text-decoration: none; }
+        
+        .main-content { margin-left: 220px; padding: 20px; }
+        
+        .main-content .header {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .main-content .header h2 { font-size: 18px; color: #333; }
+        
+        .tabs { margin-bottom: 20px; display: flex; gap: 10px; }
+        
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            background: white;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active { background: #667eea; color: white; }
+        
+        .table-container { background: white; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow: hidden; }
+        
+        .table-container table { width: 100%; border-collapse: collapse; }
+        
+        .table-container th, .table-container td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .table-container th { background: #fafafa; font-weight: 600; color: #666; font-size: 14px; }
+        
+        .table-container td { font-size: 14px; color: #333; }
+        
+        .table-container tr:hover { background: #fafafa; }
+        
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn.reset { background: #ffc53d; color: #fff; }
+        .btn.reset:hover { background: #f5b800; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-content h3 { margin-bottom: 20px; font-size: 18px; }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group input:focus { border-color: #667eea; }
+        
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        
+        .modal-footer .btn { padding: 8px 20px; font-size: 14px; }
+        
+        .btn.cancel { background: #f5f5f5; color: #666; }
+        .btn.confirm { background: #667eea; color: white; }
+        
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .alert.error { background: #fff5f5; color: #dc2626; border: 1px solid #fee2e2; }
+        .alert.success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h1>刷题考试系统</h1>
+        </div>
+        
+        <ul class="menu">
+            <li><a href="/admin"><i>📊</i><span>数据概览</span></a></li>
+            <li><a href="/admin/users" class="active"><i>👥</i><span>用户管理</span></a></li>
+            <li><a href="/admin/courses"><i>📚</i><span>课程管理</span></a></li>
+            <li><a href="/admin/classes"><i>🏫</i><span>班级管理</span></a></li>
+            <li><a href="/admin/questions"><i>📝</i><span>题库管理</span></a></li>
+            <li><a href="/admin/system"><i>⚙️</i><span>系统设置</span></a></li>
+        </ul>
+        
+        <div class="user-info">
+            <p>管理员：{$user.real_name}</p>
+            <a href="/admin/logout">退出登录</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h2>用户管理</h2>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('students')">学生列表</button>
+            <button class="tab" onclick="showTab('teachers')">教师列表</button>
+        </div>
+        
+        <div id="students" class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="students" id="student"}
+                    <tr>
+                        <td>{$student.username}</td>
+                        <td>{$student.real_name}</td>
+                        <td>{$student.phone|default='-'}</td>
+                        <td>{$student.email|default='-'}</td>
+                        <td>{$student.status == 1 ? '正常' : '禁用'}</td>
+                        <td><button class="btn reset" onclick="openResetModal({$student.id}, '{$student.real_name}')">重置密码</button></td>
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="teachers" class="table-container" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>工号</th>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="teachers" id="teacher"}
+                    <tr>
+                        <td>{$teacher.username}</td>
+                        <td>{$teacher.real_name}</td>
+                        <td>{$teacher.phone|default='-'}</td>
+                        <td>{$teacher.email|default='-'}</td>
+                        <td>{$teacher.status == 1 ? '正常' : '禁用'}</td>
+                        <td><button class="btn reset" onclick="openResetModal({$teacher.id}, '{$teacher.real_name}')">重置密码</button></td>
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="modal" id="resetModal">
+        <div class="modal-content">
+            <div class="alert" id="modalAlert"></div>
+            <h3>重置密码</h3>
+            <input type="hidden" id="resetUserId">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="resetUserName" readonly>
+            </div>
+            <div class="form-group">
+                <label>新密码</label>
+                <input type="password" id="newPassword" placeholder="请输入新密码">
+            </div>
+            <div class="modal-footer">
+                <button class="btn cancel" onclick="closeModal()">取消</button>
+                <button class="btn confirm" onclick="submitReset()">确认重置</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.table-container').forEach(c => c.style.display = 'none');
+            document.getElementById(tabName).style.display = 'block';
+        }
+        
+        function openResetModal(userId, userName) {
+            document.getElementById('resetUserId').value = userId;
+            document.getElementById('resetUserName').value = userName;
+            document.getElementById('newPassword').value = '';
+            document.getElementById('modalAlert').style.display = 'none';
+            document.getElementById('resetModal').classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('resetModal').classList.remove('show');
+        }
+        
+        function submitReset() {
+            const userId = document.getElementById('resetUserId').value;
+            const newPassword = document.getElementById('newPassword').value;
+            
+            if (!newPassword || newPassword.length < 6) {
+                showAlert('密码长度不能少于6位', 'error');
+                return;
+            }
+            
+            fetch('/admin/users/reset_password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `user_id=${userId}&new_password=${encodeURIComponent(newPassword)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 1) {
+                    showAlert(data.msg, 'success');
+                    setTimeout(() => closeModal(), 1500);
+                } else {
+                    showAlert(data.msg, 'error');
+                }
+            });
+        }
+        
+        function showAlert(msg, type) {
+            const alert = document.getElementById('modalAlert');
+            alert.textContent = msg;
+            alert.className = `alert ${type}`;
+            alert.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程详情 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding: 0 10px;
+            line-height: 60px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .header .user .user-avatar:hover { transform: scale(1.1); }
+        .header .user .user-name {
+            font-size: 14px; color: #333; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-name:hover { color: #667eea; }
+        .header .user span { font-size: 14px; color: #333; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+        
+        .main-content { padding: 20px; }
+        
+        .course-header {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .course-header h1 { font-size: 24px; color: #333; margin-bottom: 10px; }
+        .course-header p { font-size: 14px; color: #999; }
+        
+        .chapter-list {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .chapter-item {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .chapter-item:last-child { border-bottom: none; }
+        
+        .chapter-item .chapter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .chapter-item .chapter-header h3 { font-size: 16px; color: #333; }
+        
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn.practice { background: #667eea; color: white; }
+        
+        .knowledge-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .knowledge-tag {
+            padding: 6px 12px;
+            background: #f0f5ff;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .knowledge-tag:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .chapter-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/student">首页</a>
+            <a href="/student/courses" class="active">课程学习</a>
+            <a href="/student/practice">在线练习</a>
+            <a href="/student/exam">模拟考试</a>
+            <a href="/student/error">错题本</a>
+        </div>
+        <div class="user">
+            <a href="/student/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/student/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <a href="/student/courses" class="back-link">← 返回课程列表</a>
+        
+        <div class="course-header">
+            <h1>{$course.name}</h1>
+            <p>{$course.description|default='暂无描述'}</p>
+        </div>
+        
+        <div class="chapter-list">
+            {if $chapters}
+            {volist name="chapters" id="chapter"}
+            <div class="chapter-item">
+                <div class="chapter-header">
+                    <h3>{$chapter.name}</h3>
+                    {if $chapter.question_count > 0}
+                    <button class="btn practice" onclick="startPractice({$chapter.id})">开始练习</button>
+                    {/if}
+                </div>
+                
+                {if $chapter.knowledge_list}
+                <div class="knowledge-tags">
+                    {volist name="chapter.knowledge_list" id="knowledge"}
+                    <span class="knowledge-tag" onclick="startPracticeByKnowledge({$knowledge.id})">{$knowledge.name}</span>
+                    {/volist}
+                </div>
+                {/if}
+                
+                <div class="chapter-meta">
+                    <span>知识点：{$chapter.knowledge_list|count}个</span>
+                    <span>题目数：{$chapter.question_count}道</span>
+                </div>
+            </div>
+            {/volist}
+            {else}
+            <div style="padding: 40px; text-align: center; color: #999;">
+                暂无章节
+            </div>
+            {/if}
+        </div>
+    </div>
+    
+    <script>
+        function startPractice(chapterId) {
+            location.href = `/student/practice?chapter_id=${chapterId}`;
+        }
+        
+        function startPracticeByKnowledge(knowledgeId) {
+            location.href = `/student/practice?knowledge_id=${knowledgeId}`;
+        }
+    </script>
+</body>
+</html>

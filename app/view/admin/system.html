@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+        
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .sidebar .logo { text-align: center; padding: 0 20px; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; }
+        .sidebar .logo h1 { font-size: 18px; font-weight: 600; }
+        
+        .sidebar .menu { list-style: none; }
+        .sidebar .menu li { margin-bottom: 5px; }
+        .sidebar .menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .sidebar .menu li a:hover, .sidebar .menu li a.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: white;
+            color: white;
+        }
+        
+        .sidebar .user-info {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .sidebar .user-info p { font-size: 14px; margin-bottom: 5px; }
+        .sidebar .user-info a { color: rgba(255,255,255,0.7); font-size: 12px; text-decoration: none; }
+        
+        .main-content { margin-left: 220px; padding: 20px; }
+        
+        .main-content .header {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .main-content .header h2 { font-size: 18px; color: #333; }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-header h3 { font-size: 16px; color: #333; }
+        
+        .table-container { overflow-x: auto; }
+        
+        .table-container table { width: 100%; border-collapse: collapse; }
+        .table-container th, .table-container td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+        .table-container th { background: #fafafa; font-weight: 600; color: #666; }
+        .table-container td { color: #333; }
+        
+        .empty { text-align: center; padding: 40px; color: #999; }
+        
+        .info-card {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .info-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+        
+        .info-item .label { font-size: 14px; color: #999; margin-bottom: 5px; }
+        .info-item .value { font-size: 24px; font-weight: 600; color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h1>刷题考试系统</h1>
+        </div>
+        <ul class="menu">
+            <li><a href="/admin"><i>📊</i><span>数据概览</span></a></li>
+            <li><a href="/admin/users"><i>👥</i><span>用户管理</span></a></li>
+            <li><a href="/admin/courses"><i>📚</i><span>课程管理</span></a></li>
+            <li><a href="/admin/classes"><i>🏫</i><span>班级管理</span></a></li>
+            <li><a href="/admin/questions"><i>📝</i><span>题库管理</span></a></li>
+            <li><a href="/admin/system" class="active"><i>⚙️</i><span>系统设置</span></a></li>
+        </ul>
+        <div class="user-info">
+            <p>管理员：{$user.real_name}</p>
+            <a href="/admin/logout">退出登录</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h2>系统设置</h2>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-item">
+                <div class="label">PHP版本</div>
+                <div class="value"><?php echo phpversion(); ?></div>
+            </div>
+            <div class="info-item">
+                <div class="label">ThinkPHP版本</div>
+                <div class="value">6.1.x</div>
+            </div>
+            <div class="info-item">
+                <div class="label">运行环境</div>
+                <div class="value"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h3>系统日志</h3>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>用户</th>
+                            <th>模块</th>
+                            <th>操作</th>
+                            <th>IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $logs}
+                        {volist name="logs" id="log"}
+                        <tr>
+                            <td>{:date('Y-m-d H:i:s', strtotime($log['create_time']))}</td>
+                            <td>{$log.user_id ? $log.user_id : '匿名'}</td>
+                            <td>{$log.module|default='-'}</td>
+                            <td>{$log.action|default='-'}</td>
+                            <td>{$log.ip|default='-'}</td>
+                        </tr>
+                        {/volist}
+                        {else}
+                        <tr>
+                            <td colspan="5" class="empty">暂无日志记录</td>
+                        </tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

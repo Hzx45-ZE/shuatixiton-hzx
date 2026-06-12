@@ -1,0 +1,714 @@
+2026-06-10 20:18:20 Paper AI Generate Log
+Subject: MySQL数据库基础, Needed: 10, Total: 10
+[
+    {
+        "config_api_key_len": 0,
+        "config_base_url": "https:\/\/api.deepseek.com\/v1",
+        "config_model": "deepseek-chat",
+        "isConfigured": false
+    },
+    {
+        "error": "AI 服务未配置"
+    }
+]
+
+2026-06-10 20:31:20 Paper AI Generate Log
+Subject: MySQL数据库基础, Needed: 10, Total: 10
+[
+    {
+        "config_api_key_len": 0,
+        "config_base_url": "https:\/\/api.deepseek.com\/v1",
+        "config_model": "deepseek-chat",
+        "isConfigured": false
+    },
+    {
+        "error": "AI 服务未配置"
+    }
+]
+
+2026-06-10 20:54:21 Paper AI Generate Log
+Subject: MySQL数据库基础, Needed: 10, Total: 10
+[
+    {
+        "config_api_key_len": 64,
+        "config_base_url": "https:\/\/ark.cn-beijing.volces.com\/api\/v3  # 火山引擎AI API基础URL",
+        "config_model": "ep-20260412174832-ws5fc  # 选择的AI模型推理点",
+        "isConfigured": true
+    },
+    {
+        "type_id": "3",
+        "type_code": "judgment",
+        "attempt": 1,
+        "batchSize": 5,
+        "success": false,
+        "error": "AI 服务请求失败: OpenSSL SSL_read: Connection was reset, errno 10054",
+        "dataCount": 0
+    },
+    {
+        "type_id": "4",
+        "type_code": "fill_blank",
+        "attempt": 1,
+        "batchSize": 5,
+        "success": false,
+        "error": "AI 服务请求失败: OpenSSL SSL_read: Connection was reset, errno 10054",
+        "dataCount": 0
+    },
+    {
+        "type_id": "5",
+        "type_code": "short_answer",
+        "attempt": 1,
+        "batchSize": 5,
+        "success": false,
+        "error": "AI 服务请求失败: OpenSSL SSL_read: Connection was reset, errno 10054",
+        "dataCount": 0
+    }
+]
+
+2026-06-11 12:30:45 REACHED add() GET:N POST:Y
+2026-06-11 12:47:34 Paper created: id=19, type=auto
+2026-06-11 12:57:48 Paper created: id=20, type=auto
+2026-06-11 13:11:48 Paper created: id=21, type=auto
+2026-06-11 13:11:48 ENTERED AI SECTION
+2026-06-11 13:11:48 RETURN JSON code=0 msg=组卷失败：AI 出题未成功，请检查 runtime/ai_generate_log.txt 日志
+2026-06-11 13:22:13 Paper created: id=22, type=auto
+2026-06-11 13:30:15 Paper created: id=23, type=auto
+2026-06-11 13:30:57 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 13:40:07 Paper created: id=24, type=auto
+2026-06-11 13:40:39 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 13:40:39 generateQuestions chat result: success=true, content_len=2397
+2026-06-11 13:40:39 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL数据库服务的默认监听端口是3306",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL默认安装完成后服务监听的端口为3306，用户也可以通过修改配置文件自定义端口号",
+      "score": 5
+    },
+    {
+      "title": "在MySQL中，DELETE语句的作用�
+2026-06-11 13:44:33 Paper created: id=25, type=auto
+2026-06-11 14:17:54 Paper created: id=26, type=auto
+2026-06-11 14:26:43 Paper created: id=27, type=auto
+2026-06-11 14:27:16 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 14:27:16 generateQuestions chat result: success=true, content_len=2278
+2026-06-11 14:27:16 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL数据库的默认服务端口是3306。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL安装完成后默认监听的服务端口就是3306，用户也可以通过修改配置文件自定义端口号。",
+      "score": 5
+    },
+    {
+      "title": "在MySQL中，VARCHAR类型是固�
+2026-06-11 14:27:16 saveAiQuestion called, title=MySQL数据库的默认服务端口是3306。, type_id=3
+2026-06-11 14:27:16 saveAiQuestion called, title=在MySQL中，VARCHAR类型是固定长度的字符串类型。, type_id=3
+2026-06-11 14:27:16 saveAiQuestion called, title=MySQL中的主键约束要求主键列的值不能为NULL，且不能重复。, type_id=3
+2026-06-11 14:27:16 saveAiQuestion called, title=在MySQL中，使用SELECT * FROM 表名的语句可以查询出该表的所有列数据。, type_id=3
+2026-06-11 14:27:16 saveAiQuestion called, title=在MySQL中，DELETE语句的作用是删除指定的表结构。, type_id=3
+2026-06-11 14:34:28 Paper created: id=28, type=auto
+2026-06-11 14:35:09 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 14:35:09 generateQuestions chat result: success=true, content_len=2395
+2026-06-11 14:35:09 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL属于开源的关系型数据库管理系统",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL是当前应用最广泛的开源关系型数据库，采用二维表结构存储数据，符合关系型数据库的核心特征",
+      "score": 5
+    },
+    {
+      "title": "在MySQL中，D
+2026-06-11 14:35:09 saveAiQuestion called, title=MySQL属于开源的关系型数据库管理系统, type_id=3
+2026-06-11 14:35:09 saveAiQuestion called, title=在MySQL中，DELETE语句的作用是向数据表中插入新的数据记录, type_id=3
+2026-06-11 14:35:09 saveAiQuestion called, title=MySQL中的VARCHAR类型是可变长度的字符串类型，可根据存储内容自动调整占用的存储空间, type_id=3
+2026-06-11 14:35:09 saveAiQuestion called, title=编写MySQL的SQL语句时，关键字必须全部大写才能被正常解析执行, type_id=3
+2026-06-11 14:35:09 saveAiQuestion called, title=在MySQL中，使用SELECT * FROM 表名的语句可以查询出指定表内的所有数据记录, type_id=3
+2026-06-11 14:42:19 Paper created: id=29, type=auto
+2026-06-11 14:46:58 Paper created: id=30, type=auto
+2026-06-11 14:46:58 After Paper create, type=auto
+2026-06-11 14:47:28 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 14:47:28 generateQuestions chat result: success=true, content_len=2420
+2026-06-11 14:47:28 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL是一种典型的关系型数据库管理系统",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL通过二维表结构存储数据，支持标准SQL语法，属于当前主流的关系型数据库管理系统之一，该描述符合事实。",
+      "score": 5
+    },
+    {
+      "title"
+2026-06-11 14:47:28 saveAiQuestion called, title=MySQL是一种典型的关系型数据库管理系统, type_id=3
+2026-06-11 14:47:28 saveAiQuestion called, title=在MySQL中，DELETE语句的作用是删除表中的指定记录，不会删除表本身的结构, type_id=3
+2026-06-11 14:47:28 saveAiQuestion called, title=在MySQL的表设计中，主键字段允许存储NULL值, type_id=3
+2026-06-11 14:47:28 saveAiQuestion called, title=在MySQL的LIKE模糊查询中，通配符“%”可以匹配任意长度的任意字符，包括零个字符, type_id=3
+2026-06-11 14:47:28 saveAiQuestion called, title=在MySQL中，使用ORDER BY子句进行排序时，默认的排序方式是降序DESC, type_id=3
+2026-06-11 14:51:03 Paper created: id=31, type=auto
+2026-06-11 14:51:03 After Paper create, type=auto
+2026-06-11 15:00:53 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 15:00:53 generateQuestions chat result: success=true, content_len=2717
+2026-06-11 15:00:53 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL是一种开源的关系型数据库管理系统。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL是当前应用最广泛的开源关系型数据库管理系统之一，通过表、行、列的结构化方式存储数据，完全符合关系型数据库的特征，因此该表述正�
+2026-06-11 15:00:53 parseJson result: {"questions":[{"title":"MySQL是一种开源的关系型数据库管理系统。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL是当前应用最广泛的开源关系型数据库管理系统之一，通过表、行、列的结构化方式存储数据，完全符合关系型数据库的特征，因此该表述正确。","score":5},{"title":"在MySQL中，一张数据表允许同时设置多个独立的主键约束。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"MySQL中每张表仅允许设置一个主键约束，若需要多个字段联合作为唯一标识，可以创建联合主键，但联合主键整体仍属于一个主键，因此该表述错误。","score":5},{"title":"在MySQL的SELECT查询语句中，使用通配符*可以表示查询目标表的所有字段。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"SELECT语句中*为字段通配符，代表匹配查询目标表的全部字段，无需逐个声明列名，常用于快速查询全表数据的场景，因此该表述正确。","score":5},{"title":"在MySQL中，执行DELETE语句会同时删除数据表的结构和表中所有数据。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"DELETE语句属于DML数据操作语句，仅能删除表中的行数据，不会删除表结构；若要删除整张表的结构和所有数据，需要使用DDL中的DROP TABLE语句，因此该表述错误。","score":5},{"title":"在MySQL中，向VARCHAR类型字段插入内容时，需要用英文单引号或双引号将字符串内容包裹。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL中字符串类型（如CHAR、VARCHAR、TEXT等）的字面量值，必须使用英文单引号或双引号包裹才能被数据库正确识别，因此该表述正确。","score":5}]}
+2026-06-11 15:33:25 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 15:33:25 generateQuestions chat result: success=true, content_len=2380
+2026-06-11 15:33:25 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL中，SELECT语句的核心作用是查询数据表中的数据。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "SELECT是SQL数据查询语言的核心语句，在MySQL中主要用于从数据表中检索符合筛选条件的数据，属于最基础的操作语句。",
+      "score": 5
+  
+2026-06-11 15:33:25 parseJson result: {"questions":[{"title":"MySQL中，SELECT语句的核心作用是查询数据表中的数据。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"SELECT是SQL数据查询语言的核心语句，在MySQL中主要用于从数据表中检索符合筛选条件的数据，属于最基础的操作语句。","score":5},{"title":"在MySQL的数据表中，最多允许设置1个主键约束。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"主键的作用是唯一标识表中的每一行记录，要求值非空且唯一，同一个数据表中仅能存在一个主键约束。","score":5},{"title":"MySQL中，DELETE语句可以直接删除整个数据表的结构。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"DELETE语句的作用是删除表中的行数据，并不会改动表结构，若要删除数据表的结构需要使用DROP TABLE语句。","score":5},{"title":"MySQL中，VARCHAR类型属于固定长度的字符串存储类型。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"VARCHAR是可变长度的字符串类型，会根据实际存储的内容长度动态调整占用的存储空间，固定长度的字符串类型为CHAR。","score":5},{"title":"MySQL中，使用INSERT语句可以向指定数据表中插入新的行记录。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"INSERT是MySQL中用于数据新增的基础语句，可实现向指定数据表中添加一条或多条新的记录。","score":5}]}
+[2026-06-11 15:33:25] AI Generation: SUCCESS
+Subject: MySQL数据库基础, Need: 5, Actual: 5
+
+2026-06-11 15:42:46 Before generateAiQuestions
+2026-06-11 15:43:22 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 15:43:22 generateQuestions chat result: success=true, content_len=2443
+2026-06-11 15:43:22 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL是一种开源的关系型数据库管理系统。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL是当前应用最广泛的开源关系型数据库管理系统之一，通过表、行、列的结构化方式存储数据，符合关系型数据库的特征，因此表述正确。",
+ 
+2026-06-11 15:43:22 parseJson result: {"questions":[{"title":"MySQL是一种开源的关系型数据库管理系统。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL是当前应用最广泛的开源关系型数据库管理系统之一，通过表、行、列的结构化方式存储数据，符合关系型数据库的特征，因此表述正确。","score":5},{"title":"在MySQL中，一张数据表的主键字段允许存储NULL值。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"主键约束的核心要求是字段值唯一且非空，用于唯一标识表中的每一条记录，因此主键字段不允许存储NULL值，表述错误。","score":5},{"title":"在MySQL中，INSERT语句的作用是查询数据表中的数据。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"INSERT是数据插入语句，用于向数据表中新增记录；查询数据需要使用SELECT语句，因此表述错误。","score":5},{"title":"MySQL中的VARCHAR数据类型属于可变长度的字符串类型。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"VARCHAR是可变长度字符串类型，存储时会根据实际内容长度占用存储空间，相比固定长度的CHAR类型更节省空间，因此表述正确。","score":5},{"title":"在MySQL的SELECT查询语句中，WHERE子句用于对查询结果进行条件过滤。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"WHERE子句是MySQL查询中的基础筛选语法，只有符合WHERE后指定条件的记录才会被返回，因此表述正确。","score":5}]}
+2026-06-11 15:43:22 generateAiQuestions returned: count=5, type=array
+2026-06-11 15:43:22 Creating PaperQuestion relations, paperId=35
+2026-06-11 15:43:22 Creating relation: question_id=102
+2026-06-11 15:43:22 Creating relation: question_id=103
+2026-06-11 15:43:22 Creating relation: question_id=104
+2026-06-11 15:43:22 Creating relation: question_id=105
+2026-06-11 15:43:22 Creating relation: question_id=106
+[2026-06-11 15:43:22] AI Generation: SUCCESS
+Subject: MySQL数据库基础, Need: 5, Actual: 5
+
+2026-06-11 17:29:53 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 17:30:33 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 17:30:33 generateQuestions chat result: success=true, content_len=2489
+2026-06-11 17:30:33 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL是一种典型的关系型数据库管理系统。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "关系型数据库采用二维表格形式存储数据，支持标准SQL查询语法，MySQL是目前应用最广泛的开源关系型数据库管理系统之一，该表述正确。",
+      "
+2026-06-11 17:30:33 parseJson result: {"questions":[{"title":"MySQL是一种典型的关系型数据库管理系统。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"关系型数据库采用二维表格形式存储数据，支持标准SQL查询语法，MySQL是目前应用最广泛的开源关系型数据库管理系统之一，该表述正确。","score":5},{"title":"在MySQL中，使用DELETE语句删除表数据时会同时删除对应的表结构。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"DELETE语句的作用是删除表中的指定行数据，不会改动表的结构定义，若要删除整张表的结构需要使用DROP TABLE语句，该表述错误。","score":5},{"title":"MySQL中的主键约束可以保证主键列的取值唯一且不为空。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"主键约束是MySQL的核心约束之一，兼具唯一约束和非空约束的特性，用于唯一标识表中的每一条记录，该表述正确。","score":5},{"title":"MySQL中VARCHAR类型是固定长度的字符串存储类型。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"MySQL中CHAR是固定长度的字符串类型，VARCHAR属于可变长度的字符串类型，会根据实际存储的内容长度动态调整占用的存储空间，该表述错误。","score":5},{"title":"在MySQL中可以使用INSERT语句向数据表中插入新的记录。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"INSERT是SQL数据操作语言的核心语句之一，作用就是向指定数据表中插入新的行记录，该表述正确。","score":5}]}
+[2026-06-11 17:30:33] AI Generation: SUCCESS
+Subject: MySQL数据库基础, Need: 5, Actual: 5
+
+2026-06-11 17:30:33 handleAutoPaper done, now updatePaperStats
+2026-06-11 17:30:33 updatePaperStats done, now commit
+2026-06-11 17:30:33 questionCount=5, committing
+2026-06-11 17:30:33 committed, returning JSON
+2026-06-11 18:13:02 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 19:05:33 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 19:05:57 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 19:05:57 generateQuestions chat result: success=true, content_len=1126
+2026-06-11 19:05:57 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在MySQL中，使用ORDER BY子句对查询结果排序时，默认采用的是升序（ASC）排序规则。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "ORDER BY子句默认排序规则为升序ASC，若需要降序排序需要显式指定DESC关键字，该表述符合MySQL的基础语法�
+2026-06-11 19:05:57 parseJson result: {"questions":[{"title":"在MySQL中，使用ORDER BY子句对查询结果排序时，默认采用的是升序（ASC）排序规则。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"ORDER BY子句默认排序规则为升序ASC，若需要降序排序需要显式指定DESC关键字，该表述符合MySQL的基础语法规则。","score":5},{"title":"MySQL中的CHAR数据类型属于可变长度字符串类型，存储数据时比VARCHAR类型更节省存储空间。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"CHAR是定长字符串类型，会按照定义的长度固定占用存储空间，VARCHAR才是可变长度字符串类型，存储长度波动较大的数据时VARCHAR更节省空间，因此该表述错误。","score":5}]}
+2026-06-11 19:22:27 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 19:22:27 generateAiQuestions: calling AI for type=judgment, batchSize=2
+2026-06-11 19:22:48 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 19:22:48 generateQuestions chat result: success=true, content_len=1064
+2026-06-11 19:22:48 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL数据库服务的默认监听端口为3306",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL安装完成后默认配置的服务监听端口为3306，若未手动修改配置文件则默认使用该端口提供数据库服务，表述正确。",
+      "score": 5
+    },
+    {
+      "titl
+2026-06-11 19:22:48 parseJson result: {"questions":[{"title":"MySQL数据库服务的默认监听端口为3306","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL安装完成后默认配置的服务监听端口为3306，若未手动修改配置文件则默认使用该端口提供数据库服务，表述正确。","score":5},{"title":"在MySQL中，使用DROP TABLE语句可以清空表内全部数据但保留数据表的结构","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"DROP TABLE语句的作用是删除整个数据表，包括表结构和所有存储的数据；若仅需清空表内数据保留表结构，应使用TRUNCATE TABLE语句或者不带WHERE条件的DELETE语句，表述错误。","score":5}]}
+2026-06-11 19:22:48 generateAiQuestions: AI returned, success=true, questionCount=2
+2026-06-11 19:22:48 generateAiQuestions: saving question title=MySQL数据库服务的默认监听端口为3306
+2026-06-11 19:22:48 generateAiQuestions: saved question id=114
+2026-06-11 19:22:48 generateAiQuestions: saving question title=在MySQL中，使用DROP TABLE语句可以清空表内全部
+2026-06-11 19:22:48 generateAiQuestions: saved question id=115
+2026-06-11 19:22:48 generateAiQuestions: calling AI for type=judgment, batchSize=2
+2026-06-11 19:33:05 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 19:33:05 generateAiQuestions: type=judgment, attempt=1, batchSize=2
+2026-06-11 19:33:29 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 19:33:29 generateQuestions chat result: success=true, content_len=987
+2026-06-11 19:33:29 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL数据库默认的服务端口号为3306",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL完成默认安装后，服务的默认监听端口就是3306，属于入门级基础常识，用户可通过修改配置文件自定义端口，该表述正确。",
+      "score": 5
+    },
+    {
+  
+2026-06-11 19:33:29 parseJson result: {"questions":[{"title":"MySQL数据库默认的服务端口号为3306","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL完成默认安装后，服务的默认监听端口就是3306，属于入门级基础常识，用户可通过修改配置文件自定义端口，该表述正确。","score":5},{"title":"在MySQL中，使用DELETE语句可以删除数据表的结构","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"DELETE语句的作用是删除表内的行数据，不会改变或删除数据表本身的结构，若要删除表结构需要使用DROP TABLE语句，该表述错误。","score":5}]}
+2026-06-11 19:33:29 generateAiQuestions: AI returned, success=true, questionCount=2
+2026-06-11 19:33:29 generateAiQuestions: saving question title=MySQL数据库默认的服务端口号为3306
+2026-06-11 19:33:29 generateAiQuestions: saved question id=116
+2026-06-11 19:33:29 generateAiQuestions: saving question title=在MySQL中，使用DELETE语句可以删除数据表的结构
+2026-06-11 19:33:29 generateAiQuestions: saved question id=117
+2026-06-11 19:33:29 generateAiQuestions: type=fill_blank, attempt=1, batchSize=2
+2026-06-11 19:33:54 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 19:33:54 generateQuestions chat result: success=true, content_len=1171
+2026-06-11 19:33:54 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL中，查看当前服务实例下所有数据库的SQL语句是______，切换到名为test的数据库的SQL语句是______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "SHOW DATABASES;USE test",
+      "analysis": "本题考查MySQL最基础的库操作命令，SHOW DATABASES用于列举当前实例下所有有权限查看的数据库，USE 库名命令用于切换当前操作的目标数据库，�
+2026-06-11 19:33:54 parseJson result: {"questions":[{"title":"MySQL中，查看当前服务实例下所有数据库的SQL语句是______，切换到名为test的数据库的SQL语句是______。","type":"填空题","difficulty":"easy","options":[],"answer":"SHOW DATABASES;USE test","analysis":"本题考查MySQL最基础的库操作命令，SHOW DATABASES用于列举当前实例下所有有权限查看的数据库，USE 库名命令用于切换当前操作的目标数据库，二者是库层面操作的高频基础语句，SQL语句关键字不区分大小写。","score":5},{"title":"MySQL查询语句中，若需要查询目标表的所有字段，可在SELECT关键字后填写______指代所有字段，用于筛选查询条件的关键字是______。","type":"填空题","difficulty":"easy","options":[],"answer":"*;WHERE","analysis":"本题考查基础查询语句的语法，*在SELECT语句中是所有字段的通配符，WHERE关键字是SQL中用于条件筛选的核心关键字，可搭配各种运算符筛选符合需求的数据行。","score":5}]}
+2026-06-11 19:33:54 generateAiQuestions: AI returned, success=true, questionCount=2
+2026-06-11 19:33:54 generateAiQuestions: saving question title=MySQL中，查看当前服务实例下所有数据库的SQL语句是__
+2026-06-11 19:33:54 generateAiQuestions: saved question id=118
+2026-06-11 19:33:54 generateAiQuestions: saving question title=MySQL查询语句中，若需要查询目标表的所有字段，可在SEL
+2026-06-11 19:33:54 generateAiQuestions: saved question id=119
+2026-06-11 19:33:54 generateAiQuestions: type=single_choice, attempt=1, batchSize=1
+2026-06-11 19:37:02 getTypeIds: raw=["1"], type_id=null, filtered=[1]
+2026-06-11 19:37:02 generateAiQuestions: type=single_choice, attempt=1, batchSize=1
+2026-06-11 19:37:22 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 19:37:22 generateQuestions chat result: success=true, content_len=916
+2026-06-11 19:37:22 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在MySQL中，若要查询学生表（student）中存储的所有数据，下列SQL语句写法正确的是？",
+      "type": "单选题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "SELECT * FROM student;"},
+        {"key": "B", "content": "SELECT * student;"},
+        {"key": "C", "content": "SELECT student FROM *;"},
+        {"key": "D", "content": "SHOW student;"}
+      ],
+      "answer": "A",
+      "analysis": "M
+2026-06-11 19:37:22 parseJson result: {"questions":[{"title":"在MySQL中，若要查询学生表（student）中存储的所有数据，下列SQL语句写法正确的是？","type":"单选题","difficulty":"easy","options":[{"key":"A","content":"SELECT * FROM student;"},{"key":"B","content":"SELECT * student;"},{"key":"C","content":"SELECT student FROM *;"},{"key":"D","content":"SHOW student;"}],"answer":"A","analysis":"MySQL查询表数据的基础语法为`SELECT 字段列表 FROM 表名`，其中`*`代表匹配所有字段，因此A选项写法正确。B选项缺少必要关键字FROM，语法错误；C选项字段列表和表名的位置颠倒，不符合语法要求；D选项SHOW关键字通常用于查询数据库、数据表等元数据信息，不能用于查询表内存储的业务数据。","score":5}]}
+2026-06-11 19:37:22 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 19:37:22 generateAiQuestions: saving question title=在MySQL中，若要查询学生表（student）中存储的所有
+2026-06-11 19:37:22 generateAiQuestions: saved question id=120
+2026-06-11 19:37:22 generateAiQuestions: returning 1 questions
+[2026-06-11 19:37:22] AI Generation: SUCCESS
+Subject: MySQL数据库基础, Need: 1, Actual: 1
+
+2026-06-11 19:37:22 handleAutoPaper done, now updatePaperStats
+2026-06-11 19:37:22 updatePaperStats done, now commit
+2026-06-11 19:37:22 questionCount=1, committing
+2026-06-11 19:37:22 committed, returning JSON
+2026-06-11 19:38:27 getTypeIds: raw=["3","4"], type_id=null, filtered=[3,4]
+2026-06-11 19:38:27 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-11 19:38:56 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 19:38:56 generateQuestions chat result: success=true, content_len=637
+2026-06-11 19:38:56 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL属于开源的关系型数据库管理系统，可用于存储和管理结构化数据。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL是当前应用最广泛的开源关系型数据库管理系统之一，它通过表、行、列的结构化形式组织数据，支持对结构化�
+2026-06-11 19:38:56 parseJson result: {"questions":[{"title":"MySQL属于开源的关系型数据库管理系统，可用于存储和管理结构化数据。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL是当前应用最广泛的开源关系型数据库管理系统之一，它通过表、行、列的结构化形式组织数据，支持对结构化数据进行增、删、改、查等管理操作，题干表述符合MySQL的基础属性，因此正确。","score":5}]}
+2026-06-11 19:38:56 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 19:38:56 generateAiQuestions: saving question title=MySQL属于开源的关系型数据库管理系统，可用于存储和管理结
+2026-06-11 19:38:56 generateAiQuestions: saved question id=121
+2026-06-11 19:38:56 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-11 20:14:02 getTypeIds: raw=["3","4"], type_id=null, filtered=[3,4]
+2026-06-11 20:14:02 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-11 20:14:23 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 20:14:23 generateQuestions chat result: success=true, content_len=614
+2026-06-11 20:14:23 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在MySQL中，VARCHAR数据类型是固定长度的字符串类型。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "B",
+      "analysis": "MySQL的字符串类型中，CHAR是固定长度的字符串类型，存储时会占用定义时指定的长度空间；VARCHAR是可变长度的字符串类型，会根据实际�
+2026-06-11 20:14:23 parseJson result: {"questions":[{"title":"在MySQL中，VARCHAR数据类型是固定长度的字符串类型。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"B","analysis":"MySQL的字符串类型中，CHAR是固定长度的字符串类型，存储时会占用定义时指定的长度空间；VARCHAR是可变长度的字符串类型，会根据实际存储的内容长度动态调整占用的存储空间，因此题干表述错误。","score":5}]}
+2026-06-11 20:14:23 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 20:14:23 generateAiQuestions: saving question title=在MySQL中，VARCHAR数据类型是固定长度的字符串类型
+2026-06-11 20:14:23 generateAiQuestions: saved question id=122
+2026-06-11 20:14:23 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-11 20:14:42 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 20:14:42 generateQuestions chat result: success=true, content_len=610
+2026-06-11 20:14:42 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在MySQL基础操作中，查看当前实例下所有可访问数据库的SQL语句是______，切换到名为test的目标数据库的SQL语句是______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "SHOW DATABASES;USE test",
+      "analysis": "本题考查MySQL入门级基础操作命令，SHOW DATABASES用于罗列当前MySQL服务中用户有权限查看的所有数据库，USE 数据库名 用于切�
+2026-06-11 20:14:42 parseJson result: {"questions":[{"title":"在MySQL基础操作中，查看当前实例下所有可访问数据库的SQL语句是______，切换到名为test的目标数据库的SQL语句是______。","type":"填空题","difficulty":"easy","options":[],"answer":"SHOW DATABASES;USE test","analysis":"本题考查MySQL入门级基础操作命令，SHOW DATABASES用于罗列当前MySQL服务中用户有权限查看的所有数据库，USE 数据库名 用于切换当前操作的目标数据库，是操作MySQL的常用前置基础语句。","score":5}]}
+2026-06-11 20:14:42 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 20:14:42 generateAiQuestions: saving question title=在MySQL基础操作中，查看当前实例下所有可访问数据库的SQ
+2026-06-11 20:14:42 generateAiQuestions: saved question id=123
+2026-06-11 20:14:42 generateAiQuestions: returning 2 questions
+[2026-06-11 20:14:42] AI Generation: SUCCESS
+Subject: MySQL数据库基础, Need: 2, Actual: 2
+
+2026-06-11 20:14:42 handleAutoPaper done, now updatePaperStats
+2026-06-11 20:14:42 updatePaperStats done, now commit
+2026-06-11 20:14:42 questionCount=2, committing
+2026-06-11 20:14:42 committed, returning JSON
+2026-06-11 21:11:36 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 21:11:36 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-11 21:11:53 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 21:11:53 generateQuestions chat result: success=true, content_len=638
+2026-06-11 21:11:53 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在MySQL中，使用SELECT语句查询数据时，若要返回表中所有字段，可以使用通配符*代替字段列表。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "该表述符合MySQL基础查询语法规则，通配符*专门用于指代目标表的全部字段，使用`SELECT * FROM
+2026-06-11 21:11:53 parseJson result: {"questions":[{"title":"在MySQL中，使用SELECT语句查询数据时，若要返回表中所有字段，可以使用通配符*代替字段列表。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"该表述符合MySQL基础查询语法规则，通配符*专门用于指代目标表的全部字段，使用`SELECT * FROM 表名`的语法可以快速返回当前表所有字段的对应数据，是基础查询的常用写法。","score":5}]}
+2026-06-11 21:11:53 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 21:11:53 generateAiQuestions: saving question title=在MySQL中，使用SELECT语句查询数据时，若要返回表中
+2026-06-11 21:11:53 generateAiQuestions: saved question id=124
+2026-06-11 21:11:53 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-11 21:12:13 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 21:12:13 generateQuestions chat result: success=true, content_len=624
+2026-06-11 21:12:13 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在MySQL命令行操作中，查看当前实例下所有已创建数据库的SQL语句是______；切换到指定名称的数据库时，需要使用的关键字是______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "SHOW DATABASES;USE",
+      "analysis": "本题考查MySQL入门级基础操作知识点，SHOW DATABASES语句用于罗列当前实例下所有已创建的数据库，USE关键字用于切�
+2026-06-11 21:12:13 parseJson result: {"questions":[{"title":"在MySQL命令行操作中，查看当前实例下所有已创建数据库的SQL语句是______；切换到指定名称的数据库时，需要使用的关键字是______。","type":"填空题","difficulty":"easy","options":[],"answer":"SHOW DATABASES;USE","analysis":"本题考查MySQL入门级基础操作知识点，SHOW DATABASES语句用于罗列当前实例下所有已创建的数据库，USE关键字用于切换到目标数据库下开展后续操作，是MySQL入门阶段必须掌握的基础内容。","score":5}]}
+2026-06-11 21:12:13 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 21:12:13 generateAiQuestions: saving question title=在MySQL命令行操作中，查看当前实例下所有已创建数据库的S
+2026-06-11 21:12:13 generateAiQuestions: saved question id=125
+2026-06-11 21:12:13 generateAiQuestions: type=single_choice, attempt=1, batchSize=1
+2026-06-11 21:38:35 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 21:38:35 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-11 21:38:52 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 21:38:52 generateQuestions chat result: success=true, content_len=547
+2026-06-11 21:38:52 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在Windows操作系统中，使用Ctrl+C组合快捷键可以实现选中内容的复制功能。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "Ctrl+C是Windows系统及绝大多数常用办公软件中通用的复制快捷键，命名取自英文单词Copy的首字母，该表述符合常识�
+2026-06-11 21:38:52 parseJson result: {"questions":[{"title":"在Windows操作系统中，使用Ctrl+C组合快捷键可以实现选中内容的复制功能。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"Ctrl+C是Windows系统及绝大多数常用办公软件中通用的复制快捷键，命名取自英文单词Copy的首字母，该表述符合常识，是正确的。","score":5}]}
+2026-06-11 21:38:52 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 21:38:52 generateAiQuestions: saving question title=在Windows操作系统中，使用Ctrl+C组合快捷键可以实
+2026-06-11 21:38:52 generateAiQuestions: saved question id=126
+2026-06-11 21:38:52 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-11 21:39:10 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 21:39:10 generateQuestions chat result: success=true, content_len=542
+2026-06-11 21:39:10 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "计算机硬件系统中，负责运算和逻辑判断的核心部件是______，其常用的英文缩写是______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "中央处理器;CPU",
+      "analysis": "计算机硬件核心组件中，中央处理器的主要功能是执行计算机指令、处理各类数据，完成运算操作与逻辑判断，其通用英文缩写为CPU，是计算机运算和控制�
+2026-06-11 21:39:10 parseJson result: {"questions":[{"title":"计算机硬件系统中，负责运算和逻辑判断的核心部件是______，其常用的英文缩写是______。","type":"填空题","difficulty":"easy","options":[],"answer":"中央处理器;CPU","analysis":"计算机硬件核心组件中，中央处理器的主要功能是执行计算机指令、处理各类数据，完成运算操作与逻辑判断，其通用英文缩写为CPU，是计算机运算和控制的核心。","score":5}]}
+2026-06-11 21:39:10 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 21:39:10 generateAiQuestions: saving question title=计算机硬件系统中，负责运算和逻辑判断的核心部件是______
+2026-06-11 21:39:10 generateAiQuestions: saved question id=127
+2026-06-11 21:39:10 generateAiQuestions: type=single_choice, attempt=1, batchSize=1
+2026-06-11 22:43:56 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-11 22:43:56 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-11 22:44:08 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 22:44:08 generateQuestions chat result: success=true, content_len=597
+2026-06-11 22:44:08 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "计算机的核心运算控制部件是中央处理器，其英文缩写为CPU。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "中央处理器的英文全称为Central Processing Unit，缩写为CPU，是计算机系统的运算和控制核心，负责处理计算机内部的所有数据指令
+2026-06-11 22:44:08 parseJson result: {"questions":[{"title":"计算机的核心运算控制部件是中央处理器，其英文缩写为CPU。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"中央处理器的英文全称为Central Processing Unit，缩写为CPU，是计算机系统的运算和控制核心，负责处理计算机内部的所有数据指令，该表述符合信息技术基础常识，因此是正确的。","score":5}]}
+2026-06-11 22:44:08 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 22:44:08 generateAiQuestions: saving question title=计算机的核心运算控制部件是中央处理器，其英文缩写为CPU。
+2026-06-11 22:44:08 generateAiQuestions: saved question id=128
+2026-06-11 22:44:08 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-11 22:44:35 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-11 22:44:35 generateQuestions chat result: success=true, content_len=585
+2026-06-11 22:44:35 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "网页开发的三大核心基础技术分别是HTML、CSS和______，其中HTML的核心作用是搭建网页的______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "JavaScript;结构",
+      "analysis": "本题考查网页开发入门基础常识，网页开发三大核心基础技术为HTML、CSS、JavaScript，三者分工不同：HTML负责定义网页的内容结构，CSS负责设置网页的展示�
+2026-06-11 22:44:35 parseJson result: {"questions":[{"title":"网页开发的三大核心基础技术分别是HTML、CSS和______，其中HTML的核心作用是搭建网页的______。","type":"填空题","difficulty":"easy","options":[],"answer":"JavaScript;结构","analysis":"本题考查网页开发入门基础常识，网页开发三大核心基础技术为HTML、CSS、JavaScript，三者分工不同：HTML负责定义网页的内容结构，CSS负责设置网页的展示样式，JavaScript负责实现网页的交互功能。","score":5}]}
+2026-06-11 22:44:35 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-11 22:44:35 generateAiQuestions: saving question title=网页开发的三大核心基础技术分别是HTML、CSS和_____
+2026-06-11 22:44:35 generateAiQuestions: saved question id=129
+2026-06-11 22:44:35 generateAiQuestions: type=short_answer, attempt=1, batchSize=1
+2026-06-12 08:49:24 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-12 08:49:24 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-12 08:49:34 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 08:49:34 generateQuestions chat result: success=true, content_len=571
+2026-06-12 08:49:34 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "计算机中负责执行运算和调度控制指令的核心硬件是中央处理器（CPU）。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "中央处理器（CPU）是计算机的运算核心与控制核心，核心功能就是解释计算机指令、处理软件数据以及调度各项硬�
+2026-06-12 08:49:34 parseJson result: {"questions":[{"title":"计算机中负责执行运算和调度控制指令的核心硬件是中央处理器（CPU）。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"中央处理器（CPU）是计算机的运算核心与控制核心，核心功能就是解释计算机指令、处理软件数据以及调度各项硬件的运行，因此题干表述正确。","score":5}]}
+2026-06-12 08:49:34 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-12 08:49:34 generateAiQuestions: saving question title=计算机中负责执行运算和调度控制指令的核心硬件是中央处理器（C
+2026-06-12 08:49:34 generateAiQuestions: saved question id=130
+2026-06-12 08:49:34 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-12 08:49:52 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 08:49:52 generateQuestions chat result: success=true, content_len=577
+2026-06-12 08:49:52 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在Windows操作系统中，删除文件时跳过回收站直接永久删除的快捷键组合是______，复制选中内容的通用快捷键是______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "Shift+Delete;Ctrl+C",
+      "analysis": "本题考查Windows系统基础快捷键常识，按下Shift+Delete删除文件时不会将文件移入回收站而是直接永久删除，Ctrl+C是绝大多数办公�
+2026-06-12 08:49:52 parseJson result: {"questions":[{"title":"在Windows操作系统中，删除文件时跳过回收站直接永久删除的快捷键组合是______，复制选中内容的通用快捷键是______。","type":"填空题","difficulty":"easy","options":[],"answer":"Shift+Delete;Ctrl+C","analysis":"本题考查Windows系统基础快捷键常识，按下Shift+Delete删除文件时不会将文件移入回收站而是直接永久删除，Ctrl+C是绝大多数办公场景通用的复制选中内容的快捷键。","score":5}]}
+2026-06-12 08:49:52 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-12 08:49:52 generateAiQuestions: saving question title=在Windows操作系统中，删除文件时跳过回收站直接永久删除
+2026-06-12 08:49:52 generateAiQuestions: saved question id=131
+2026-06-12 08:49:52 generateAiQuestions: type=short_answer, attempt=1, batchSize=1
+2026-06-12 09:08:43 getTypeIds: raw=["3","4"], type_id=null, filtered=[3,4]
+2026-06-12 09:08:43 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-12 09:09:02 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 09:09:02 generateQuestions chat result: success=true, content_len=600
+2026-06-12 09:09:02 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "计算机中存储容量的基本单位是字节（Byte），1个字节等于8个比特（bit）",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "计算机中最小的存储单位是比特（bit），存储容量的基本单位是字节（Byte），二者的标准换算关系为1Byte=8bit，该表
+2026-06-12 09:09:02 parseJson result: {"questions":[{"title":"计算机中存储容量的基本单位是字节（Byte），1个字节等于8个比特（bit）","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"计算机中最小的存储单位是比特（bit），存储容量的基本单位是字节（Byte），二者的标准换算关系为1Byte=8bit，该表述符合计算机存储单位的基础定义，因此是正确的。","score":5}]}
+2026-06-12 09:09:02 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-12 09:09:02 generateAiQuestions: saving question title=计算机中存储容量的基本单位是字节（Byte），1个字节等于8
+2026-06-12 09:09:03 generateAiQuestions: saved question id=132
+2026-06-12 09:09:04 generateAiQuestions: type=fill_blank, attempt=1, batchSize=1
+2026-06-12 09:09:27 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 09:09:27 generateQuestions chat result: success=true, content_len=603
+2026-06-12 09:09:27 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "在Windows 10操作系统中，删除文件时按住______键再按Delete可直接永久删除文件不进入回收站；使用组合键Ctrl+Shift+______可快速打开任务管理器。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "Shift;Esc",
+      "analysis": "本题考查Windows系统基础快捷键操作，属于入门级知识点：按住Shift键执行删除操作会跳过回收站直接永久删除�
+2026-06-12 09:09:27 parseJson result: {"questions":[{"title":"在Windows 10操作系统中，删除文件时按住______键再按Delete可直接永久删除文件不进入回收站；使用组合键Ctrl+Shift+______可快速打开任务管理器。","type":"填空题","difficulty":"easy","options":[],"answer":"Shift;Esc","analysis":"本题考查Windows系统基础快捷键操作，属于入门级知识点：按住Shift键执行删除操作会跳过回收站直接永久删除文件；Ctrl+Shift+Esc是快速唤起任务管理器的通用快捷键。","score":3}]}
+2026-06-12 09:09:27 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-12 09:09:27 generateAiQuestions: saving question title=在Windows 10操作系统中，删除文件时按住______
+2026-06-12 09:09:27 generateAiQuestions: saved question id=133
+2026-06-12 09:09:28 generateAiQuestions: returning 2 questions
+2026-06-12 09:42:31 getTypeIds: raw=["5"], type_id=null, filtered=[5]
+2026-06-12 09:42:31 generateAiQuestions: type=short_answer, attempt=1, batchSize=1
+2026-06-12 09:42:52 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 09:42:52 generateQuestions chat result: success=true, content_len=986
+2026-06-12 09:42:52 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "请简述MySQL中主键的定义及核心作用。",
+      "type": "简答题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "主键是MySQL数据表中用于唯一标识表中每一行记录的单个字段或者多个字段的组合，核心作用如下：1. 保证数据唯一性：主键字段的值不允许重复，也不允许为NULL，可避免表中出现重复的行记录；2. 提升查询效率：主键会默认创建主键索�
+2026-06-12 09:42:52 parseJson result: {"questions":[{"title":"请简述MySQL中主键的定义及核心作用。","type":"简答题","difficulty":"easy","options":[],"answer":"主键是MySQL数据表中用于唯一标识表中每一行记录的单个字段或者多个字段的组合，核心作用如下：1. 保证数据唯一性：主键字段的值不允许重复，也不允许为NULL，可避免表中出现重复的行记录；2. 提升查询效率：主键会默认创建主键索引，基于主键检索数据时可以大幅提升查询速度；3. 建立表间关联：主键可以和其他表的外键对应，用于搭建不同数据表之间的关联关系。","analysis":"本题属于MySQL入门级基础考点，考察学习者对核心约束概念「主键」的基础认知，是数据库表设计阶段必须掌握的基础知识点，熟悉主键的作用是后续学习多表关联查询、表结构优化的前提。","score":5}]}
+2026-06-12 09:42:52 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-12 09:42:52 generateAiQuestions: saving question title=请简述MySQL中主键的定义及核心作用。
+2026-06-12 09:42:52 generateAiQuestions: saved question id=134
+2026-06-12 09:42:53 generateAiQuestions: returning 1 questions
+2026-06-12 09:44:13 getTypeIds: raw=["3","4"], type_id=null, filtered=[3,4]
+2026-06-12 09:44:13 generateAiQuestions: type=judgment, attempt=1, batchSize=1
+2026-06-12 09:44:28 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 09:44:28 generateQuestions chat result: success=true, content_len=508
+2026-06-12 09:44:28 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL数据库默认的服务监听端口号是3306。",
+      "type": "判断题",
+      "difficulty": "easy",
+      "options": [
+        {"key": "A", "content": "正确"},
+        {"key": "B", "content": "错误"}
+      ],
+      "answer": "A",
+      "analysis": "MySQL数据库完成默认安装后，服务的默认监听端口为3306，若有特殊需求用户也可自行修改配置文件调整端口号，因此该表述正确。",
+      "score": 5
+   
+2026-06-12 09:44:28 parseJson result: {"questions":[{"title":"MySQL数据库默认的服务监听端口号是3306。","type":"判断题","difficulty":"easy","options":[{"key":"A","content":"正确"},{"key":"B","content":"错误"}],"answer":"A","analysis":"MySQL数据库完成默认安装后，服务的默认监听端口为3306，若有特殊需求用户也可自行修改配置文件调整端口号，因此该表述正确。","score":5}]}
+2026-06-12 09:44:28 generateAiQuestions: AI returned, success=true, questionCount=1
+2026-06-12 09:44:29 generateAiQuestions: saving question title=MySQL数据库默认的服务监听端口号是3306。
+2026-06-12 09:44:29 generateAiQuestions: saved question id=135
+2026-06-12 09:44:30 generateAiQuestions: type=fill_blank, attempt=1, batchSize=2
+2026-06-12 09:44:55 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 09:44:55 generateQuestions chat result: success=true, content_len=952
+2026-06-12 09:44:55 parseJson input (first 500 chars): {
+  "questions": [
+    {
+      "title": "MySQL服务默认的监听端口号是______，默认的超级管理员账号名称是______。",
+      "type": "填空题",
+      "difficulty": "easy",
+      "options": [],
+      "answer": "3306;root",
+      "analysis": "本题考查MySQL基础入门常识，MySQL默认服务监听端口为3306，默认最高权限的管理员账户名称为root，属于初学者必须掌握的基础知识点。",
+      "score": 5
+    },
+    {
+      "title": "MySQL中用
+2026-06-12 09:44:55 parseJson result: {"questions":[{"title":"MySQL服务默认的监听端口号是______，默认的超级管理员账号名称是______。","type":"填空题","difficulty":"easy","options":[],"answer":"3306;root","analysis":"本题考查MySQL基础入门常识，MySQL默认服务监听端口为3306，默认最高权限的管理员账户名称为root，属于初学者必须掌握的基础知识点。","score":5},{"title":"MySQL中用于执行查询操作的核心SQL关键字是______，用于执行插入新数据操作的核心SQL关键字是______。","type":"填空题","difficulty":"easy","options":[],"answer":"SELECT;INSERT","analysis":"本题考查MySQL基础DML操作关键字，查询数据的核心关键字为SELECT，插入新数据的核心关键字为INSERT，是SQL语法最基础的核心内容。","score":5}]}
+2026-06-12 09:44:55 generateAiQuestions: AI returned, success=true, questionCount=2
+2026-06-12 09:44:55 generateAiQuestions: saving question title=MySQL服务默认的监听端口号是______，默认的超级管理
+2026-06-12 09:44:55 generateAiQuestions: saved question id=136
+2026-06-12 09:44:55 generateAiQuestions: saving question title=MySQL中用于执行查询操作的核心SQL关键字是______
+2026-06-12 09:44:55 generateAiQuestions: saved question id=137
+2026-06-12 09:44:56 generateAiQuestions: returning 3 questions
+2026-06-12 10:09:59 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-12 10:09:59 generateAiQuestions: multi-type request, types=["judgment","fill_blank","short_answer"]
+2026-06-12 10:09:59 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=400, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 10:09:59 generateAiQuestions: chat result success=false
+2026-06-12 10:09:59 generateAiQuestions: retrying...
+2026-06-12 10:10:00 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=400, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 10:10:00 generateAiQuestions: chat result success=false
+2026-06-12 10:10:00 generateAiQuestions: failed after retry
+2026-06-12 10:46:39 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-12 10:46:39 generateAiQuestions: multi-type request, types=["judgment","fill_blank","short_answer"]
+2026-06-12 10:46:39 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=400, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 10:46:39 generateAiQuestions: chat result success=false, error=The parameter `temperature` specified in the request are not valid: expected a decimal, but got `"0.7"` instead. Request id: 021781232400445e1f25c9c561bea18b413f78995a9d2ca4d4471
+2026-06-12 10:46:39 generateAiQuestions: retrying...
+2026-06-12 10:46:40 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=400, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 10:46:40 generateAiQuestions: chat result success=false, error=The parameter `temperature` specified in the request are not valid: expected a decimal, but got `"0.7"` instead. Request id: 0217812324016487e77ed289647c83a4aab1892556246c5e0b23e
+2026-06-12 10:46:40 generateAiQuestions: failed after retry
+2026-06-12 11:52:54 getTypeIds: raw=["3","4","5"], type_id=null, filtered=[3,4,5]
+2026-06-12 11:52:54 generateAiQuestions: multi-type request, types=["judgment","fill_blank","short_answer"]
+2026-06-12 11:53:27 CURL Debug: url=https://ark.cn-beijing.volces.com/api/v3/chat/completions, code=200, sslVerify=20, contentType=application/json; charset=utf-8, error=''
+2026-06-12 11:53:27 generateAiQuestions: chat result success=true, error=none
+2026-06-12 11:53:27 generateAiQuestions: parsed 3 questions
+2026-06-12 11:53:27 generateAiQuestions: saved question id=138 type=judgment
+2026-06-12 11:53:27 generateAiQuestions: saved question id=139 type=fill_blank
+2026-06-12 11:53:27 generateAiQuestions: saved question id=140 type=short_answer
+2026-06-12 11:53:27 generateAiQuestions: returning 3 questions

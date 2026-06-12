@@ -1,0 +1,322 @@
+<?php /*a:1:{s:75:"D:\phpstudy\phpstudy_pro\WWW\xxjsdati.com\app\view\student\exam_detail.html";i:1781091647;}*/ ?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试详情 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+
+        .header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .header .user .user-avatar:hover { transform: scale(1.1); }
+        .header .user .user-name {
+            font-size: 14px; color: #333; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-name:hover { color: #667eea; }
+
+        .main-content { padding: 20px; max-width: 900px; margin: 0 auto; }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-info h2 { font-size: 20px; margin-bottom: 8px; }
+        .result-info .paper-name { font-size: 14px; opacity: 0.85; }
+
+        .result-stats { display: flex; gap: 30px; text-align: center; }
+        .stat-item .stat-value { font-size: 32px; font-weight: 700; }
+        .stat-item .stat-label { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+        .stat-item.passed .stat-value { color: #b7eb8f; }
+        .stat-item.failed .stat-value { color: #ffa39e; }
+
+        .btn-row { display: flex; gap: 12px; margin-bottom: 20px; }
+        .btn {
+            padding: 10px 28px; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 14px; font-weight: 500;
+            transition: all 0.3s ease; text-decoration: none; display: inline-block;
+        }
+        .btn.primary { background: #667eea; color: white; }
+        .btn.primary:hover { background: #5a6fd6; }
+        .btn.outline { background: white; color: #667eea; border: 1px solid #667eea; }
+        .btn.outline:hover { background: #f0f5ff; }
+
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 16px;
+        }
+
+        .question-card.correct { border-left: 4px solid #52c41a; }
+        .question-card.wrong { border-left: 4px solid #f5222d; }
+
+        .q-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+
+        .q-type { padding: 3px 8px; background: #f0f5ff; color: #667eea; border-radius: 4px; font-size: 12px; }
+        .q-score { padding: 3px 8px; background: #fff7e6; color: #fa8c16; border-radius: 4px; font-size: 12px; }
+
+        .q-status {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .q-status.correct-status { background: #f6ffed; color: #52c41a; }
+        .q-status.wrong-status { background: #fff1f0; color: #f5222d; }
+
+        .q-title {
+            font-size: 16px; color: #333; line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .option-list { list-style: none; }
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 13px 15px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .option-item .option-key {
+            font-weight: 600; margin-right: 12px;
+            min-width: 26px; height: 26px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-size: 13px;
+        }
+
+        .option-item.option-correct { border-color: #b7eb8f; background: #f6ffed; }
+        .option-item.option-correct .option-key { background: #52c41a; color: white; }
+        .option-item.option-wrong { border-color: #ffa39e; background: #fff1f0; }
+        .option-item.option-wrong .option-key { background: #f5222d; color: white; }
+        .option-item.option-user { border-color: #ffa39e; background: #fff1f0; }
+        .option-item.option-user .option-key { background: #f5222d; color: white; }
+
+        .option-item .option-content { font-size: 14px; color: #333; padding-top: 3px; }
+        .option-item .option-mark { margin-left: auto; font-size: 13px; }
+
+        .answer-block {
+            margin-top: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .answer-row { margin-bottom: 6px; font-size: 14px; }
+        .answer-label { color: #666; }
+        .answer-value { color: #333; }
+        .answer-value.correct-text { color: #52c41a; font-weight: 500; }
+        .answer-value.wrong-text { color: #f5222d; font-weight: 500; }
+
+        .analysis-block {
+            margin-top: 12px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            background: #fffbe6;
+            font-size: 14px; color: #8c6d00;
+            line-height: 1.6;
+            display: none;
+        }
+        .analysis-block.show { display: block; }
+        .analysis-block .analysis-label { font-weight: 600; margin-bottom: 4px; color: #d48806; }
+
+        .no-select { user-select: none; }
+
+        .question-actions { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+        .btn-action {
+            padding: 6px 14px; border: 1px solid #e0e0e0; border-radius: 6px;
+            background: white; color: #666; font-size: 12px; cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-action:hover { border-color: #667eea; color: #667eea; background: #f0f5ff; }
+
+        .empty-state {
+            background: white; border-radius: 12px; padding: 60px 20px;
+            text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
+        .empty-state p { font-size: 14px; color: #999; }
+    </style>
+</head>
+<body class="no-select">
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="user">
+            <a href="/student/profile" class="user-avatar"><?php echo htmlentities((string) mb_substr($user['real_name'],0,1)); ?></a>
+            <a href="/student/profile" class="user-name"><?php echo htmlentities((string) $user['real_name']); ?></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <?php if($questions && count($questions) > 0): ?>
+        <div class="result-card">
+            <div class="result-info">
+                <h2>考试详情</h2>
+                <div class="paper-name"><?php echo htmlentities((string) $paper['name']); ?></div>
+            </div>
+            <div class="result-stats">
+                <div class="stat-item <?php if($record->is_passed): ?>passed<?php else: ?>failed<?php endif; ?>">
+                    <div class="stat-value"><?php echo htmlentities((string) $record['score']); ?></div>
+                    <div class="stat-label">得分 / <?php echo htmlentities((string) $record['total_score']); ?>分</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><?php echo htmlentities((string) round($record['score'] / $record['total_score'] * 100)); ?>%</div>
+                    <div class="stat-label">正确率</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <a href="/student/exam" class="btn outline">← 返回列表</a>
+        </div>
+
+        <?php $qIndex = 0; if(is_array($questions) || $questions instanceof \think\Collection || $questions instanceof \think\Paginator): $i = 0; $__LIST__ = $questions;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$question): $mod = ($i % 2 );++$i;$qIndex++; ?>
+        <div class="question-card <?php if($question['is_correct'] == 1): ?>correct<?php else: ?>wrong<?php endif; ?>">
+            <div class="q-header">
+                <span class="q-type"><?php echo htmlentities((string) $question['type_name']); ?></span>
+                <span class="q-score"><?php echo htmlentities((string) $question['score']); ?>分</span>
+                <span class="q-status <?php if($question['is_correct'] == 1): ?>correct-status<?php else: ?>wrong-status<?php endif; ?>">
+                    <?php if($question['is_correct'] == 1): ?>✓ 回答正确<?php else: ?>✗ 回答错误<?php endif; ?>
+                </span>
+            </div>
+
+            <div class="q-title">
+                <span style="font-weight:600;margin-right:8px;"><?php echo htmlentities((string) $qIndex); ?>.</span>
+                <?php echo htmlentities((string) $question['title']); ?>
+            </div>
+
+            <?php if(in_array($question['type_code'], ['single_choice', 'multiple_choice', 'judgment'])): ?>
+            <ul class="option-list">
+                <?php if(is_array($question['options']) || $question['options'] instanceof \think\Collection || $question['options'] instanceof \think\Paginator): $i = 0; $__LIST__ = $question['options'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$option): $mod = ($i % 2 );++$i;
+                $isCorrectOpt = in_array($option['option_key'], $question['correct_options'] ?? []);
+                $isUserSelected = strpos(strtoupper((string)$question['user_answer']), $option['option_key']) !== false;
+                $optClass = '';
+                if ($isCorrectOpt && $isUserSelected) $optClass = 'option-correct';
+                elseif ($isCorrectOpt) $optClass = 'option-correct';
+                elseif ($isUserSelected) $optClass = 'option-user';
+                 ?>
+                <li class="option-item <?php if($isCorrectOpt): ?>option-correct<?php elseif($isUserSelected): ?>option-user<?php endif; ?>">
+                    <span class="option-key"><?php echo htmlentities((string) $option['option_key']); ?></span>
+                    <span class="option-content"><?php echo htmlentities((string) $option['option_content']); ?></span>
+                    <?php if($isCorrectOpt): ?>
+                    <span class="option-mark" style="color:#52c41a;">✓ 正确答案</span>
+                    <?php elseif($isUserSelected): ?>
+                    <span class="option-mark" style="color:#f5222d;">你的选择</span>
+                    <?php endif; ?>
+                </li>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
+            </ul>
+            <?php endif; if($question['type_code'] == 'fill_blank'): ?>
+            <div class="answer-block">
+                <div class="answer-row">
+                    <span class="answer-label">你的答案：</span>
+                    <span class="answer-value <?php if($question['is_correct']): ?>correct-text<?php else: ?>wrong-text<?php endif; ?>">
+                        <?php echo !empty($question['user_answer']) ? htmlentities((string) $question['user_answer']) : '（未作答）'; ?>
+                    </span>
+                </div>
+                <div class="answer-row">
+                    <span class="answer-label">正确答案：</span>
+                    <?php if(is_array($question['answers']) || $question['answers'] instanceof \think\Collection || $question['answers'] instanceof \think\Paginator): $i = 0; $__LIST__ = $question['answers'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$ans): $mod = ($i % 2 );++$i;?>
+                    <span class="answer-value correct-text"><?php echo htmlentities((string) $ans['answer_content']); ?> </span>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
+                </div>
+            </div>
+            <?php endif; if($question['type_code'] == 'short_answer'): ?>
+            <div class="answer-block">
+                <div class="answer-row">
+                    <span class="answer-label">你的答案：</span>
+                    <span class="answer-value <?php if($question['is_correct']): ?>correct-text<?php else: ?>wrong-text<?php endif; ?>">
+                        <?php echo !empty($question['user_answer']) ? htmlentities((string) $question['user_answer']) : '（未作答）'; ?>
+                    </span>
+                </div>
+                <div class="answer-row">
+                    <span class="answer-label">参考答案：</span>
+                    <?php if(is_array($question['answers']) || $question['answers'] instanceof \think\Collection || $question['answers'] instanceof \think\Paginator): $i = 0; $__LIST__ = $question['answers'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$ans): $mod = ($i % 2 );++$i;?>
+                    <span class="answer-value correct-text"><?php echo htmlentities((string) $ans['answer_content']); ?></span>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
+                </div>
+            </div>
+            <?php endif; if($question['analysis']): ?>
+            <div class="analysis-block show">
+                <div class="analysis-label">📖 解析</div>
+                <div><?php echo htmlentities((string) $question['analysis']); ?></div>
+            </div>
+            <?php endif; ?>
+
+            <div class="question-actions">
+                <button type="button" class="btn-action" onclick="addToError(<?php echo htmlentities((string) $question['id']); ?>)">📋 加入错题</button>
+                <button type="button" class="btn-action" onclick="addToFavorite(<?php echo htmlentities((string) $question['id']); ?>)">⭐ 收藏</button>
+            </div>
+        </div>
+        <?php endforeach; endif; else: echo "" ;endif; ?>
+
+        <div class="btn-row" style="justify-content:center;margin-top:10px;">
+            <a href="/student/exam" class="btn primary">返回考试列表</a>
+        </div>
+
+        <?php else: ?>
+        <div class="empty-state">
+            <div class="icon">📋</div>
+            <p>暂无考试记录</p>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <script>
+        function addToError(questionId) {
+            fetch('/student/error/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question_id: questionId })
+            })
+            .then(res => res.json())
+            .then(data => { alert(data.msg); });
+        }
+
+        function addToFavorite(questionId) {
+            fetch('/student/favorite/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question_id: questionId })
+            })
+            .then(res => res.json())
+            .then(data => { alert(data.msg); });
+        }
+    </script>
+</body>
+</html>
