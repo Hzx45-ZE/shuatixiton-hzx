@@ -61,6 +61,12 @@ class Task
             if (empty($data['paper_id'])) {
                 return Response::error('请选择试卷');
             }
+            
+            // 检查试卷是否存在
+            $paper = Paper::find(intval($data['paper_id']));
+            if (!$paper) {
+                return Response::error('试卷不存在');
+            }
 
             if (empty($data['start_time']) || empty($data['end_time'])) {
                 return Response::error('请设置开始和结束时间');
@@ -70,10 +76,10 @@ class Task
                 'title' => $data['title'],
                 'teacher_id' => $user['id'],
                 'class_id' => $data['class_id'],
-                'paper_id' => $data['paper_id'],
+                'related_id' => $data['paper_id'],
                 'type' => $data['type'] ?? 'practice',
                 'start_time' => $data['start_time'],
-                'end_time' => $data['end_time'],
+                'deadline' => $data['end_time'],
                 'description' => $data['description'] ?? '',
                 'status' => 1,
             ]);
@@ -82,7 +88,7 @@ class Task
         }
 
         $classes = ClassInfo::where('teacher_id', $user['id'])->select();
-        $papers = Paper::with('questions')->where('creator_id', $user['id'])->select();
+        $papers = Paper::where('creator_id', $user['id'])->select();
 
         View::assign([
             'user' => $user,

@@ -107,12 +107,15 @@ class Exam
         $answers = $request->post('answers', []);
         
         if (!$recordId) {
-            return json(['code' => 0, 'msg' => '考试记录不存在']);
+            return json(['code' => 0, 'msg' => '考试记录不存在，请重新开始考试']);
         }
         
         $record = PracticeRecord::find($recordId);
-        if (!$record || $record['status'] == 1) {
-            return json(['code' => 0, 'msg' => '考试已结束']);
+        if (!$record) {
+            return json(['code' => 0, 'msg' => '考试记录不存在']);
+        }
+        if ($record['status'] == 1) {
+            return json(['code' => 0, 'msg' => '考试已结束，不能重复提交']);
         }
         
         $paperQuestions = PaperQuestion::where('paper_id', $record['paper_id'])->select();
@@ -134,25 +137,44 @@ class Exam
             $gradeStatus = null;
 
             if ($typeCode == 'short_answer') {
+                // 简答题：AI 自动评分
                 $correctAnswer = QuestionAnswer::where('question_id', $question['id'])->value('answer_content');
                 $userAnswerStr = is_array($userAnswer) ? implode('', $userAnswer) : (string)$userAnswer;
 
                 $aiService = new AiService();
                 if ($aiService->isConfigured()) {
-                    $aiResult = $aiService->gradeAnswer($question['title'], $correctAnswer, $userAnswerStr, $score);
-                    if ($aiResult['success'] && isset($aiResult['data']['score'])) {
-                        $aiScore = floatval($aiResult['data']['score']);
-                        $aiComment = $aiResult['data']['comment'] ?? '';
-                        $gradeStatus = 'pending';
-                        $totalScore += $aiScore;
-                        $isCorrect = $aiScore >= ($score * 0.6);
-                    } else {
+                    try {
+                        $aiResult = $aiService->gradeAnswer($question['title'], $correctAnswer, $userAnswerStr, $score);
+                        if ($aiResult['success'] && isset($aiResult['data']['score'])) {
+                            $aiScore = floatval($aiResult['data']['score']);
+                            $aiComment = $aiResult['data']['comment'] ?? '';
+                            $gradeStatus = 'graded';
+                            $totalScore += $aiScore;
+                            $isCorrect = $aiScore >= ($score * 0.6);
+                            if ($isCorrect) $correctCount++;
+                        } else {
+                            // AI 评分失败，回退到精确匹配
+                            $isCorrect = (trim($userAnswerStr) === trim($correctAnswer));
+                            if ($isCorrect) {
+                                $totalScore += $score;
+                                $correctCount++;
+                            }
+                        }
+                    } catch (\Throwable $e) {
+                        // AI 调用异常，回退到精确匹配
                         $isCorrect = (trim($userAnswerStr) === trim($correctAnswer));
-                        if ($isCorrect) $totalScore += $score;
+                        if ($isCorrect) {
+                            $totalScore += $score;
+                            $correctCount++;
+                        }
                     }
                 } else {
+                    // 未配置 AI，回退到精确匹配
                     $isCorrect = (trim($userAnswerStr) === trim($correctAnswer));
-                    if ($isCorrect) $totalScore += $score;
+                    if ($isCorrect) {
+                        $totalScore += $score;
+                        $correctCount++;
+                    }
                 }
             } elseif ($typeCode == 'fill_blank') {
                 $correctAnswers = QuestionAnswer::where('question_id', $question['id'])->column('answer_content');
@@ -187,12 +209,26 @@ class Exam
                 }
             }
             
+            // 设置 grade_status
+            if ($typeCode == 'short_answer') {
+                if (!isset($gradeStatus)) {
+                    $gradeStatus = $isCorrect ? 'auto' : 'wrong';
+                }
+            } else {
+                $gradeStatus = $isCorrect ? 'auto' : 'wrong';
+            }
+            
             PracticeDetail::create([
                 'record_id' => $recordId,
                 'question_id' => $question['id'],
                 'user_answer' => $userAnswer,
                 'is_correct' => $isCorrect ? 1 : 0,
                 'score' => $isCorrect ? $score : 0,
+                'question_type' => $typeCode,
+                'ai_score' => $aiScore ?? 0,
+                'ai_comment' => $aiComment ?? '',
+                'grade_status' => $gradeStatus ?? ($isCorrect ? 'auto' : 'wrong'),
+                'answer_time' => date('Y-m-d H:i:s'),
             ]);
         }
         

@@ -36,8 +36,7 @@ class Paper extends Model
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class, PaperQuestion::class, 'question_id', 'paper_id')
-            ->order('paper_question.sort');
+        return $this->belongsToMany(Question::class, PaperQuestion::class, 'paper_id', 'question_id');
     }
 
     public function paperQuestions()

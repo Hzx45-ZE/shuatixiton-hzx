@@ -24,19 +24,9 @@ class Practice
     {
         $user = Session::get('user');
         $chapterId = $request->param('chapter_id');
-        $knowledgeId = $request->param('knowledge_id');
 
-        if ($chapterId || $knowledgeId) {
-            $query = new Question();
-
-            if ($chapterId) {
-                $query = $query->where('chapter_id', $chapterId);
-            }
-
-            if ($knowledgeId) {
-                $query = $query->where('knowledge_id', $knowledgeId);
-            }
-
+        if ($chapterId) {
+            $query = Question::where('chapter_id', $chapterId);
             $questions = $query->orderRaw('RAND()')->limit(10)->select()->toArray();
 
             foreach ($questions as &$question) {
@@ -56,7 +46,6 @@ class Practice
                 'questions' => $questions,
                 'courses' => $courses,
                 'chapterId' => $chapterId,
-                'knowledgeId' => $knowledgeId,
                 'chapter_groups' => [],
             ]);
         } else {
@@ -95,7 +84,6 @@ class Practice
                 'questions' => [],
                 'courses' => $courses,
                 'chapterId' => null,
-                'knowledgeId' => null,
                 'chapter_groups' => $chapter_groups,
             ]);
         }
@@ -187,35 +175,48 @@ class Practice
                 }
             }
             else {
+                // 简答题：AI 自动评分
                 $correctAnswer = QuestionAnswer::where('question_id', $questionId)->value('answer_content');
-                $correctAnswerArr = [$correctAnswer];
-
                 $studentAnswerStr = is_array($userAnswer) ? implode('', $userAnswer) : $userAnswer;
-
-                $aiScore = null;
-                $aiComment = null;
-                $gradeStatus = null;
 
                 $aiService = new AiService();
                 if ($aiService->isConfigured()) {
-                    $aiResult = $aiService->gradeAnswer($q['title'], $correctAnswer, $studentAnswerStr, $score);
-                    if ($aiResult['success'] && isset($aiResult['data']['score'])) {
-                        $aiScore = floatval($aiResult['data']['score']);
-                        $aiComment = $aiResult['data']['comment'] ?? '';
-                        $gradeStatus = 'pending';
-                        $userScore += $aiScore;
-                        $isCorrect = $aiScore >= ($score * 0.6);
-                    } else {
+                    try {
+                        $aiResult = $aiService->gradeAnswer($q['title'], $correctAnswer, $studentAnswerStr, $score);
+                        if ($aiResult['success'] && isset($aiResult['data']['score'])) {
+                            $aiScore = floatval($aiResult['data']['score']);
+                            $aiComment = $aiResult['data']['comment'] ?? '';
+                            $gradeStatus = 'graded';
+                            $userScore += $aiScore;
+                            $isCorrect = $aiScore >= ($score * 0.6);
+                        } else {
+                            // AI 评分失败，回退到精确匹配
+                            $isCorrect = (trim($studentAnswerStr) === trim($correctAnswer));
+                            if ($isCorrect) $userScore += $score;
+                            $aiScore = 0;
+                            $aiComment = '';
+                            $gradeStatus = 'wrong';
+                        }
+                    } catch (\Throwable $e) {
+                        // AI 调用异常，回退到精确匹配
                         $isCorrect = (trim($studentAnswerStr) === trim($correctAnswer));
                         if ($isCorrect) $userScore += $score;
+                        $aiScore = 0;
+                        $aiComment = '';
+                        $gradeStatus = 'wrong';
                     }
                 } else {
+                    // 未配置 AI，回退到精确匹配
                     $isCorrect = (trim($studentAnswerStr) === trim($correctAnswer));
                     if ($isCorrect) $userScore += $score;
+                    $aiScore = 0;
+                    $aiComment = '';
+                    $gradeStatus = 'wrong';
                 }
             }
 
-            if ($isCorrect) {
+            // 简答题的分数已在 AI 评分时计算，其他题型答对才加分
+            if ($isCorrect && $questionTypeCode != 'short_answer') {
                 $userScore += $score;
             }
 
@@ -226,9 +227,10 @@ class Practice
                 'is_correct' => $isCorrect ? 1 : 0,
                 'score' => $isCorrect ? $score : 0,
                 'question_type' => $questionTypeCode,
-                'ai_score' => $aiScore ?? null,
-                'ai_comment' => $aiComment ?? null,
-                'grade_status' => $gradeStatus ?? null,
+                'ai_score' => $aiScore ?? 0,
+                'ai_comment' => $aiComment ?? '',
+                'grade_status' => $gradeStatus ?? 'wrong',
+                'answer_time' => date('Y-m-d H:i:s'),
             ]);
 
             $details[$questionId] = [

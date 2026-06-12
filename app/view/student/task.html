@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习任务 - 信息技术课刷题考试系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f5f7fa; }
+
+        .header {
+            background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .header .logo { font-size: 18px; font-weight: 600; color: #667eea; }
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a {
+            text-decoration: none; color: #666; font-size: 14px; padding: 0 10px;
+            line-height: 60px; border-bottom: 3px solid transparent; transition: all 0.3s ease;
+        }
+        .header .nav a:hover, .header .nav a.active { color: #667eea; border-bottom-color: #667eea; }
+        .header .user { display: flex; align-items: center; gap: 15px; }
+        .header .user .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .header .user .user-name { font-size: 14px; color: #333; cursor: pointer; text-decoration: none; }
+        .header .user .user-name:hover { color: #667eea; }
+        .header .user a { text-decoration: none; color: #666; font-size: 14px; }
+
+        .main-content { padding: 20px; max-width: 900px; margin: 0 auto; }
+
+        .section {
+            background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 20px; margin-bottom: 20px;
+        }
+        .section h2 { font-size: 18px; color: #333; margin-bottom: 15px; }
+
+        .task-card {
+            border: 1px solid #f0f0f0; border-radius: 10px; padding: 20px; margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .task-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102,126,234,0.1); }
+        .task-card .task-header {
+            display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;
+        }
+        .task-card .task-title { font-size: 16px; font-weight: 600; color: #333; }
+        .task-card .task-type {
+            padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;
+        }
+        .task-card .task-type.practice { background: #e6f7ff; color: #1890ff; }
+        .task-card .task-type.exam { background: #fff1f0; color: #f5222d; }
+        .task-card .task-type.homework { background: #f6ffed; color: #52c41a; }
+        .task-card .task-meta { font-size: 13px; color: #999; margin-bottom: 12px; }
+        .task-card .task-meta span { margin-right: 20px; }
+        .task-card .task-desc { font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.6; }
+
+        .btn {
+            padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer;
+            font-size: 14px; transition: all 0.3s ease;
+        }
+        .btn.start { background: #667eea; color: white; text-decoration: none; cursor: pointer; }
+        .btn.start:hover { background: #5a6fd6; }
+        .btn.start:hover { background: #5a6fd6; }
+        .btn.done { background: #f5f5f5; color: #999; cursor: default; }
+        .btn.view { background: #52c41a; color: white; text-decoration: none;  }
+        .btn.view:hover { background: #45a614; }
+
+        .empty { text-align: center; padding: 60px; color: #999; }
+        .empty .icon { font-size: 48px; margin-bottom: 10px; }
+
+        .alert {
+            padding: 12px 16px; border-radius: 6px; margin-bottom: 15px; font-size: 14px;
+        }
+        .alert.error { background: #fff2f0; color: #ff4d4f; border: 1px solid #ffccc7; }
+        .alert.success { background: #f6ffed; color: #52c41a; border: 1px solid #b7eb8f; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📚 刷题考试系统</div>
+        <div class="nav">
+            <a href="/student">首页</a>
+            <a href="/student/courses">课程学习</a>
+            <a href="/student/practice">在线练习</a>
+            <a href="/student/tasks" class="active">学习任务</a>
+            <a href="/student/exam">模拟考试</a>
+            <a href="/student/error">错题本</a>
+        </div>
+        <div class="user">
+            <a href="/student/profile" class="user-avatar">{$user.real_name|mb_substr=0,1}</a>
+            <a href="/student/profile" class="user-name">{$user.real_name}</a>
+            <a href="/logout">退出</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="section">
+            <h2>📋 学习任务</h2>
+            
+            {if isset($error)}
+            <div class="alert error">{$error}</div>
+            {/if}
+
+            {if $tasks && count($tasks) > 0}
+            {volist name="tasks" id="task"}
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-title">{$task.title}</span>
+                    <span class="task-type {$task.type}">
+                        {if $task.type == 'practice'}练习{elseif $task.type == 'exam'}考试{else}作业{/if}
+                    </span>
+                </div>
+                <div class="task-meta">
+                    <span>📄 试卷：{$task.paper_name}</span>
+                    <span>📝 总分：{$task.paper_total_score}分</span>
+                </div>
+                <div class="task-meta">
+                    {if $task.start_time}
+                    <span>⏰ 开始：{$task.start_time}</span>
+                    {/if}
+                    {if $task.end_time}
+                    <span>🔚 截止：{$task.end_time}</span>
+                    {/if}
+                </div>
+                {if $task.description}
+                <div class="task-desc">{$task.description}</div>
+                {/if}
+                <div>
+                    {if $task.is_completed}
+                    <a href="/student/exam/detail?record_id={$task.record_id}" class="btn view">查看成绩</a>
+                    {else}
+                    <a href="/student/tasks/start?task_id={$task.id}" class="btn start">开始答题</a>
+                    {/if}
+                </div>
+            </div>
+            {/volist}
+            {else}
+            <div class="empty">
+                <div class="icon">📭</div>
+                <p>暂无学习任务</p>
+                <p style="font-size:13px;margin-top:5px;">老师布置任务后会显示在这里</p>
+            </div>
+            {/if}
+        </div>
+    </div>
+</body>
+</html>

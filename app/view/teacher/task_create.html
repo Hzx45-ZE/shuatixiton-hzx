@@ -111,7 +111,7 @@
                     <select name="paper_id" onchange="showPaperInfo(this.value)">
                         <option value="">请选择试卷</option>
                         {volist name="papers" id="paper"}
-                        <option value="{$paper.id}" data-questions="{$paper.questions|count}" data-score="{$paper.total_score|default=0}">{$paper.title}</option>
+                        <option value="{$paper.id}" data-questions="{$paper.questions|count}" data-score="{$paper.total_score|default=0}">{$paper.name}</option>
                         {/volist}
                     </select>
                     <div class="paper-info" id="paperInfo">

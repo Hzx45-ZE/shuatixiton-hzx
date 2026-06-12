@@ -149,6 +149,25 @@
         .fill-input:focus { border-color: #667eea; }
         
         .fill-input:disabled { background: #fafafa; cursor: not-allowed; }
+
+        .answer-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        .answer-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .answer-textarea:disabled { background: #fafafa; cursor: not-allowed; }
         
         .question-nav {
             display: flex;
@@ -322,6 +341,10 @@
                 <input type="text" class="fill-input" placeholder="请输入答案" data-question-id="{$question.id}">
                 {/if}
                 
+                {if $question.type_id == 5}
+                <textarea class="answer-textarea" placeholder="请输入你的答案..." data-question-id="{$question.id}"></textarea>
+                {/if}
+                
                 <div class="question-actions">
                     <button type="button" class="btn-action" onclick="addToError({$question.id})">📋 加入错题</button>
                     <button type="button" class="btn-action" onclick="addToFavorite({$question.id})">⭐ 收藏</button>
@@ -478,10 +501,13 @@
             if (!qId) return;
             
             const fillInput = currentQuestion.querySelector('.fill-input');
+            const answerTextarea = currentQuestion.querySelector('.answer-textarea');
             const selectedOption = currentQuestion.querySelector('.option-item.selected');
             
             if (fillInput) {
                 answers[qId] = fillInput.value.trim();
+            } else if (answerTextarea) {
+                answers[qId] = answerTextarea.value.trim();
             } else if (selectedOption) {
                 answers[qId] = selectedOption.dataset.option;
             }
@@ -520,7 +546,10 @@
             
             fetch('/student/exam/submit', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
                 body: formData.toString()
             })
             .then(res => res.json())

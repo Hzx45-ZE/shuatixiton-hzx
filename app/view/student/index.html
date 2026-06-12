@@ -179,6 +179,7 @@
             border-radius: 4px;
             font-size: 13px;
             cursor: pointer;
+            text-decoration: none;
         }
         
         .quick-actions {
@@ -239,6 +240,7 @@
             <a href="/student" class="active">首页</a>
             <a href="/student/courses">课程学习</a>
             <a href="/student/practice">在线练习</a>
+            <a href="/student/tasks">学习任务</a>
             <a href="/student/exam">模拟考试</a>
             <a href="/student/error">错题本</a>
         </div>
@@ -298,6 +300,28 @@
                 <div class="value">{$favoriteCount}</div>
                 <div class="label">收藏题目</div>
             </div>
+        </div>
+        
+        <div class="section" id="taskSection">
+            <div class="section-header">
+                <h3>📋 学习任务</h3>
+                <a href="/student/tasks">查看全部 →</a>
+            </div>
+            {if $tasks && count($tasks) > 0}
+            <ul class="task-list">
+                {volist name="tasks" id="task"}
+                <li>
+                    <div class="task-info">
+                        <h4>{$task.title}</h4>
+                        <p>{$task.description|mb_substr=0,50}{if $task.description && mb_strlen($task.description) > 50}...{/if}</p>
+                    </div>
+                    <a href="/student/tasks/start?task_id={$task.id}" class="task-btn">去完成</a>
+                </li>
+                {/volist}
+            </ul>
+            {else}
+            <div style="text-align:center;padding:40px;color:#999;">暂无学习任务</div>
+            {/if}
         </div>
         
         <div class="section" id="favoriteSection">

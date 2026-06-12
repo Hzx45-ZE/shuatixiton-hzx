@@ -148,6 +148,7 @@
             <a href="/student">首页</a>
             <a href="/student/courses">课程学习</a>
             <a href="/student/practice" class="active">在线练习</a>
+            <a href="/student/tasks">学习任务</a>
             <a href="/student/exam">模拟考试</a>
             <a href="/student/error">错题本</a>
         </div>
@@ -159,7 +160,7 @@
     </div>
 
     <div class="main-content">
-        {if $chapterId || $knowledgeId}
+        {if $chapterId}
         <a href="/student/practice" class="back-link">← 返回章节列表</a>
 
         {if $questions && count($questions) > 0}
@@ -391,7 +392,10 @@
 
             fetch('/student/practice/submit', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
                 body: JSON.stringify({ 
                     answers: answers, 
                     question_ids: questionIds,
@@ -428,7 +432,10 @@
         function addToError(questionId) {
             fetch('/student/error/add', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
                 body: JSON.stringify({ question_id: questionId })
             })
             .then(res => res.json())
@@ -444,7 +451,10 @@
         function addToFavorite(questionId) {
             fetch('/student/favorite/add', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
                 body: JSON.stringify({ question_id: questionId })
             })
             .then(res => res.json())

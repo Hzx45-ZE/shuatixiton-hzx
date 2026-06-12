@@ -62,7 +62,7 @@ class AiService
                 'Authorization: Bearer ' . $this->apiKey,
             ],
             CURLOPT_POSTFIELDS     => json_encode($body),
-            CURLOPT_TIMEOUT        => $this->timeout,
+            CURLOPT_TIMEOUT        => (int) ($options['timeout'] ?? $this->timeout),
             CURLOPT_CONNECTTIMEOUT => 15,
             CURLOPT_NOSIGNAL       => true,
             CURLOPT_FORBID_REUSE   => true,
@@ -295,9 +295,11 @@ PROMPT;
 
         $userPrompt = "题目：{$question}\n参考答案：{$referenceAnswer}\n学生答案：{$userAnswer}\n满分：{$totalScore}分\n请评分。";
 
+        // 评分使用较短超时，避免长时间等待
         $result = $this->chat($systemPrompt, $userPrompt, [
             'temperature' => 0.3,
             'max_tokens'  => 1024,
+            'timeout'     => 30,  // 30秒超时
         ]);
 
         if (!$result['success']) {

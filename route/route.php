@@ -113,6 +113,8 @@ Route::group('student', function () {
     Route::get('exam/start', 'student.Exam/start');
     Route::post('exam/submit', 'student.Exam/submit');
     Route::get('exam/detail', 'student.Exam/detail');
+    Route::get('tasks', 'student.Task/index');
+    Route::get('tasks/start', 'student.Task/start');
     Route::get('error', 'student.Error/index');
     Route::post('error/remove', 'student.Error/remove');
     Route::post('error/grade', 'student.Error/grade');

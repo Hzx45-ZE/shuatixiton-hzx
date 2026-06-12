@@ -13,6 +13,7 @@ use app\model\Course;
 use app\model\Chapter;
 use app\model\QuestionOption;
 use app\model\QuestionAnswer;
+use app\model\ExamConfig;
 use app\service\AiService;
 use think\facade\View;
 use think\facade\Session;
@@ -126,6 +127,9 @@ class Paper
                         $this->updatePaperStats($paperId);
                         Db::commit();
                         
+                        // 保存考试配置
+                        $this->saveExamConfig($paperId, $data);
+                        
                         $msg = '组卷成功，AI 生成了 ' . count($questions) . ' 道题目';
                         return json(['code' => 1, 'msg' => $msg, 'url' => '/teacher/papers']);
                         
@@ -168,6 +172,9 @@ class Paper
                 file_put_contents(app()->getRuntimePath() . 'ai_generate_log.txt', date('Y-m-d H:i:s') . " questionCount=$questionCount, committing\n", FILE_APPEND);
                 
                 Db::commit();
+                
+                // 保存考试配置
+                $this->saveExamConfig($paperId, $data);
                 
                 file_put_contents(app()->getRuntimePath() . 'ai_generate_log.txt', date('Y-m-d H:i:s') . " committed, returning JSON\n", FILE_APPEND);
                 
@@ -1099,6 +1106,28 @@ PROMPT;
                 'question_id' => $questionId,
                 'answer_content' => $answerText,
                 'blank_index' => 1,
+            ]);
+        }
+    }
+    
+    /**
+     * 保存考试配置
+     */
+    private function saveExamConfig(int $paperId, array $data): void
+    {
+        $duration = isset($data['duration']) ? intval($data['duration']) : 0;
+        if ($duration <= 0) {
+            $duration = 60; // 默认60分钟
+        }
+        
+        // 检查是否已有配置，有则更新，无则创建
+        $config = ExamConfig::where('paper_id', $paperId)->find();
+        if ($config) {
+            $config->save(['duration' => $duration]);
+        } else {
+            ExamConfig::create([
+                'paper_id' => $paperId,
+                'duration' => $duration,
             ]);
         }
     }

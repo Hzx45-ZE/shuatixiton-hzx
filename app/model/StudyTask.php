@@ -48,7 +48,7 @@ class StudyTask extends Model
 
     public function paper()
     {
-        return $this->belongsTo(Paper::class, 'paper_id');
+        return $this->belongsTo(Paper::class, 'related_id');
     }
 
     public function getRelatedPaper()
